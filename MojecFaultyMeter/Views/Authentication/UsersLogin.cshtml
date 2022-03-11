@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login - srtdash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="~/assets/css/metisMenu.css">
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/slicknav.min.css">
+    <!-- amchart css -->
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <!-- others css -->
+    <link rel="stylesheet" href="~/assets/css/typography.css">
+    <link rel="stylesheet" href="~/assets/css/default-css.css">
+    <link rel="stylesheet" href="~/assets/css/styles.css">
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+    <!-- modernizr css -->
+    <script src="~/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- login area start -->
+    <div class="login-area login-s2">
+        <div class="container">
+            <div class="login-box ptb--100">
+                <form method="post" action="Login">
+                    <div class="login-form-head">
+                        <h4>Sign In</h4>
+                        <a><img src="https://mojectimeline.herokuapp.com/pics/mojec_logo.png" style="color:white;width:90px" alt="logo"></a>
+                    </div>
+                    <div class="login-form-body">
+                        <div class="submit-btn-area">
+                            <a href='@Url.Action("Login", "Authentication")' class="form-control" id="form_submit">Admin Login <i class="fa-solid fa-user"></i></a>
+                        </div>
+                        <div class="submit-btn-area">
+                            <a href="https://google.com"  class="form-control" id="form_submit">Disco Login <i class="fa-solid fa-user-group"></i></a>
+                        </div>
+                        <div class="submit-btn-area">
+                            <a href="https://google.com" class="form-control" id="form_submit">Store Login <i class="fa-solid fa-user-shield"></i></a>
+                        </div>
+                        <div class="submit-btn-area">
+                            <a href="https://google.com" class="form-control" id="form_submit">Factory Login <i class="fa-solid fa-users-gear"></i></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- login area end -->
+    <!-- jquery latest version -->
+    <script src="~/assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <!-- bootstrap 4 js -->
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/owl.carousel.min.js"></script>
+    <script src="~/assets/js/metisMenu.min.js"></script>
+    <script src="~/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- others plugins -->
+    <script src="~/assets/js/plugins.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+</body>
+
+</html>

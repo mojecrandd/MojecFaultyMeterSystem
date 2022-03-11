@@ -1,0 +1,106 @@
+﻿@model IEnumerable<MojecFaultyMeter.Models.Discos>
+
+@{
+    ViewBag.Title = "Discos";
+}
+
+
+
+
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 pl-6">
+                                        <div class="form-group">
+                                            <a href="@Url.Action("CreateDisco", "Admin")" class="btn btn-outline-secondary">
+                                                <i class="fas fa-plus-square"></i>
+                                                <span>
+                                                    <strong>Add Disco</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="header-title">Discos</h4>
+                                <div class="datatable-dark">
+                                    <table id="dataTable3" class="text-center">
+                                        <thead class="text-capitalize">
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.DiscoName)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.DiscoAB)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DiscoName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DiscoAB)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+        <!-- data table end -->
+        <!-- Primary table start -->
+        <!-- Dark table end -->
+
+
+
+        @section Scripts{
+            <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+            <script type="text/javascript">
+  $(function(){
+     var save = '@TempData["save"]'
+if(save!=null)
+{
+ alertify.success(save);
+}
+var edit = '@TempData["edit"]'
+if(edit!='')
+{
+    alertify.success(edit);
+}
+ var del = '@TempData["delete"]'
+if(del!='')
+{
+    alertify.error(del);
+}
+ })
+
+     function Delete(id) {
+            alertify.confirm('Meter Maintainance System', 'Are You Sure to Delete this record?', function () {
+                window.location.href = '@Url.Action("DeleteRegionStaff","Admin")/'+id;
+            },null);
+        }
+
+        function Deactivate(id) {
+            alertify.confirm('Meter Maintainance System', 'Are You Sure to Deactivate this staff?', function () {
+                window.location.href = '@Url.Action("DeactivateRegionStaff","Admin")/'+id;
+            },null);
+        }
+            </script>
+        }
+
+
+
