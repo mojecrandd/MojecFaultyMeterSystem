@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -126,15 +128,24 @@
     <Compile Include="Controllers\DiscoController.cs" />
     <Compile Include="Controllers\FactoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Discos.cs" />
     <Compile Include="Models\DiscoUser.cs" />
+    <Compile Include="Models\DispatchOrders.cs" />
     <Compile Include="Models\FactoryUsers.cs" />
+    <Compile Include="Models\FaultyMeters.cs" />
     <Compile Include="Models\MojecStoreUser.cs" />
+    <Compile Include="Models\ProcurementUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\bootstrap.min.css" />
@@ -220,6 +231,10 @@
     <Content Include="assets\images\icon\market-value\Thumbs.db" />
     <Content Include="assets\images\icon\Thumbs.db" />
     <None Include="Properties\PublishProfiles\MojecFaultyMeters - Web Deploy.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -249,12 +264,68 @@
     <Content Include="Views\Authentication\UsersLogin.cshtml" />
     <Content Include="Views\Admin\Discos.cshtml" />
     <Content Include="Views\Admin\CreateDisco.cshtml" />
+    <Content Include="Views\Admin\DiscoUsers.cshtml" />
+    <Content Include="Views\Admin\MojecStoreUsers.cshtml" />
+    <Content Include="Views\Admin\FactoryUsers.cshtml" />
+    <Content Include="Views\Admin\Completecases.cshtml" />
+    <Content Include="Views\Admin\PendingMeters.cshtml" />
+    <Content Include="Views\Admin\Replacescases.cshtml" />
+    <Content Include="Views\Admin\Solvedcases.cshtml" />
+    <Content Include="Views\Authentication\DiscoLogin.cshtml" />
+    <Content Include="Views\Disco\Dashboard.cshtml" />
+    <Content Include="Views\Shared\DiscoLayout.cshtml" />
+    <Content Include="Views\Disco\AddFaultyMeters.cshtml" />
+    <Content Include="Views\Admin\ReturnWorkorder.cshtml" />
+    <Content Include="Views\Admin\DispatchedWorkorder.cshtml" />
+    <Content Include="Views\Disco\ReturnWorkOrder.cshtml" />
+    <Content Include="Views\Disco\DispatchedWorkOrder.cshtml" />
+    <Content Include="Views\Disco\Completedcases.cshtml" />
+    <Content Include="Views\Disco\Solvedcases.cshtml" />
+    <Content Include="Views\Disco\Pendingcases.cshtml" />
+    <Content Include="Views\Disco\Replacescases.cshtml" />
+    <Content Include="Views\Disco\ConfirmList.cshtml" />
+    <Content Include="Views\Admin\Reparingcases.cshtml" />
+    <Content Include="Views\Disco\Reparingcases.cshtml" />
+    <Content Include="Views\Admin\Acceptedcases.cshtml" />
+    <Content Include="Views\Admin\Rejectcases.cshtml" />
+    <Content Include="Views\Disco\Acceptedcases.cshtml" />
+    <Content Include="Views\Disco\Rejectedcases.cshtml" />
+    <Content Include="Views\Authentication\MojecstoreLogin.cshtml" />
+    <Content Include="Views\Shared\_StoreLayout.cshtml" />
+    <Content Include="Views\Store\Dashboard.cshtml" />
+    <Content Include="Views\Store\Workorders.cshtml" />
+    <Content Include="Views\Store\DispatchWorkOrder.cshtml" />
+    <Content Include="Views\Store\PendingMeters.cshtml" />
+    <Content Include="Views\Store\Completecases.cshtml" />
+    <Content Include="Views\Store\Solvedcases.cshtml" />
+    <Content Include="Views\Store\Replacescases.cshtml" />
+    <Content Include="Views\Store\Reparingcases.cshtml" />
+    <Content Include="Views\Store\Acceptedcases.cshtml" />
+    <Content Include="Views\Store\Rejectcases.cshtml" />
+    <Content Include="Views\Admin\AwaitingDispatch.cshtml" />
+    <Content Include="Views\Store\AwaitingDispatch.cshtml" />
+    <Content Include="Views\Disco\AwaitingDispatch.cshtml" />
+    <Content Include="Views\Admin\AwaitingReplacement.cshtml" />
+    <Content Include="Views\Disco\AwaitingReplacement.cshtml" />
+    <Content Include="Views\Store\AwaitingReplacement.cshtml" />
+    <Content Include="Views\Shared\_FactoryLayout.cshtml" />
+    <Content Include="Views\Authentication\FactoryLogin.cshtml" />
+    <Content Include="Views\Factory\Dashboard.cshtml" />
+    <Content Include="Views\Factory\PendingMeters.cshtml" />
+    <Content Include="Views\Factory\Completecases.cshtml" />
+    <Content Include="Views\Factory\Solvedcases.cshtml" />
+    <Content Include="Views\Factory\Replacescases.cshtml" />
+    <Content Include="Views\Factory\Reparingcases.cshtml" />
+    <Content Include="Views\Factory\Acceptedcases.cshtml" />
+    <Content Include="Views\Factory\Rejectcases.cshtml" />
+    <Content Include="Views\Factory\AwaitingDispatch.cshtml" />
+    <Content Include="Views\Factory\AwaitingReplacement.cshtml" />
+    <Content Include="Views\Shared\_ProcurementLayout.cshtml" />
+    <Content Include="Views\Authentication\ProcurementLogin.cshtml" />
+    <Content Include="Views\Procurement\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Disco\" />
-    <Folder Include="Views\Factory\" />
-    <Folder Include="Views\Store\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -283,16 +354,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50898</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44340/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

@@ -14,29 +14,20 @@ namespace MojecFaultyMeter.Controllers
 
         SqlConnection con = new SqlConnection();
         SqlCommand com = new SqlCommand();
-        SqlDataReader dr;
-        // GET: Authentication
-
-
-
-      
-
+        //SqlDataReader dr;
+        // GET: Authentication     
         void connectionString()
         {
             con.ConnectionString = Config.StoreConnection.GetConnection();
         }
-
-
         public ActionResult UsersLogin()
         {
             return View();
         }
-
         public ActionResult Login()
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Login(string Username,string Password)
         {
@@ -77,12 +68,10 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             return View();
         }
-
         public ActionResult MojecstoreLogin()
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult MojecstoreLogin(string Username, string Password)
         {
@@ -92,14 +81,17 @@ namespace MojecFaultyMeter.Controllers
             connectionString();
             con.Open();
             com.Connection = con;
-            com.CommandText = "Select * from MojecStoreUser where Username = '" + Username + "'and Password = '" + Password + "'";
+            com.CommandText = "GetMojecStoreUserByUsername";
+            com.CommandType = System.Data.CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Username", Username);
+            com.Parameters.AddWithValue("@Password", Password);
             dr = com.ExecuteReader();
             if (dr.Read())
             {
                 found = true;
-                username = dr["Username"].ToString();
+                username = dr["M_Fullname"].ToString();
                 FormsAuthentication.SetAuthCookie(Username, true);
-                Session["Username"] = Username.ToString();
+                Session["M_Fullname"] = Username.ToString();
             }
             else
             {
@@ -122,7 +114,6 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             return View();
         }
-
         public ActionResult FactoryLogin()
         {
             return View();
@@ -136,14 +127,17 @@ namespace MojecFaultyMeter.Controllers
             connectionString();
             con.Open();
             com.Connection = con;
-            com.CommandText = "Select * from FactoryUser where Username = '" + Username + "'and Password = '" + Password + "'";
+            com.CommandText = "GetFactoryUserByUsername";
+            com.CommandType = System.Data.CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Username", Username);
+            com.Parameters.AddWithValue("@Password", Password);
             dr = com.ExecuteReader();
             if (dr.Read())
             {
                 found = true;
-                username = dr["Username"].ToString();
+                username = dr["F_Fullname"].ToString();
                 FormsAuthentication.SetAuthCookie(Username, true);
-                Session["Username"] = Username.ToString();
+                Session["F_Fullname"] = Username.ToString();
             }
             else
             {
@@ -156,7 +150,7 @@ namespace MojecFaultyMeter.Controllers
 
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["Username"] = Username.ToString();
-                return RedirectToAction("Dashboard", "Store");
+                return RedirectToAction("Dashboard", "Factory");
 
             }
             else
@@ -166,14 +160,12 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             return View();
         }
-
         public ActionResult DiscoLogin()
         {
             return View();
         }
-
         [HttpPost]
-        public ActionResult DiscoLogin(string Username, string Password)
+        public ActionResult DiscoLogin(string Username, string Password,string DiscoID,int? DiscoUserID)
         {
             string username = "";
             bool found = false;
@@ -181,14 +173,72 @@ namespace MojecFaultyMeter.Controllers
             connectionString();
             con.Open();
             com.Connection = con;
-            com.CommandText = "Select * from DiscoUsers where Username = '" + Username + "'and Password = '" + Password + "'";
+            com.CommandText = "GetDiscoUserByUsername";
+            com.CommandType = System.Data.CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Username", Username);
+            com.Parameters.AddWithValue("@Password", Password);
             dr = com.ExecuteReader();
             if (dr.Read())
             {
                 found = true;
                 username = dr["Username"].ToString();
+                DiscoID = dr["DiscoID"].ToString();
+                DiscoUserID = Convert.ToInt32(dr["DiscoUserID"].ToString());
                 FormsAuthentication.SetAuthCookie(Username, true);
+                FormsAuthentication.SetAuthCookie(DiscoID, true);
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(DiscoUserID).ToString(), true);
                 Session["Username"] = Username.ToString();
+                Session["DiscoID"] = DiscoID.ToString();
+                Session["DiscoUserID"] = DiscoUserID.ToString();
+
+            }
+            else
+            {
+                found = false;
+            }
+            dr.Close();
+            con.Close();
+            if (found == true)
+            {
+                FormsAuthentication.SetAuthCookie(DiscoID, true);
+                FormsAuthentication.SetAuthCookie(Username, true);
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(DiscoUserID).ToString(), true);
+                Session["Username"] = Username.ToString();
+                Session["DiscoID"] = DiscoID.ToString();
+                Session["DiscoUserID"] = DiscoUserID.ToString();
+                return RedirectToAction("Dashboard", "Disco");
+            }
+            else
+            {
+                ViewBag.Error = "Username and Password are wrong!";
+            }
+            con.Close();
+            return View();
+        }
+
+        public ActionResult ProcurementLogin()
+        {
+            return View();
+        }
+        public ActionResult ProcurementLogin(string Username, string Password)
+        {
+            string username = "";
+            bool found = false;
+            SqlDataReader dr;
+            connectionString();
+            con.Open();
+            com.Connection = con;
+            com.CommandText = "GetProcurementUserByUsername";
+            com.CommandType = System.Data.CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Username", Username);
+            com.Parameters.AddWithValue("@Password", Password);
+            dr = com.ExecuteReader();
+            if (dr.Read())
+            {
+                found = true;
+                username = dr["Fullname"].ToString();
+                FormsAuthentication.SetAuthCookie(Username, true);
+                Session["Fullname"] = Username.ToString();
             }
             else
             {
@@ -201,7 +251,7 @@ namespace MojecFaultyMeter.Controllers
 
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["Username"] = Username.ToString();
-                return RedirectToAction("Dashboard", "Store");
+                return RedirectToAction("Dashboard", "Procurement");
 
             }
             else
@@ -210,6 +260,6 @@ namespace MojecFaultyMeter.Controllers
             }
             con.Close();
             return View();
-        }
+        }     
     }
 }

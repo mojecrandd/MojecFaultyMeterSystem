@@ -1,0 +1,96 @@
+﻿@model IEnumerable<MojecFaultyMeter.Models.FaultyMeters>
+@{
+    ViewBag.Title = "ConfirmList";
+    Layout = "~/Views/Shared/DiscoLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 pl-6">
+                                        <div class="form-group">
+                                            <a href="@Url.Action("ConfirmWorkOrder", "Disco")" class="btn btn-outline-primary">
+                                                <i class="fas fa-plus-square"></i>
+                                                <span>
+                                                    <strong>Confirm Order</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="header-title">Confirm List</h4>
+                                <div class="data-tables datatable-primary">
+                                    <table id="dataTable3" class="table-responsive-lg">
+                                        <thead class="text-capitalize">
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.MeterNo)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.CustomerName)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.AccountNo)
+                                                </th>
+
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.MeterType)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.Status)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.DiscoUser)
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MeterNo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.AccountNo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MeterType)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Status)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DiscoUser)
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

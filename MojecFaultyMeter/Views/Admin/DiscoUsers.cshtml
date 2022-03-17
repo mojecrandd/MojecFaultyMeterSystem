@@ -1,0 +1,82 @@
+﻿@model IEnumerable<MojecFaultyMeter.Models.DiscoUser>
+
+@{
+    ViewBag.Title = "DiscoUsers";
+}
+
+
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 pl-6">
+                                        <div class="form-group">
+                                            <a href="@Url.Action("RegisterUser", "Admin")" class="btn btn-outline-primary">
+                                                <i class="fas fa-plus-square"></i>
+                                                <span>
+                                                    <strong>Add Disco</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="header-title">Disco User</h4>
+                                <div class="data-tables datatable-primary">
+                                    <table id="dataTable3">
+                                        <thead class="text-capitalize">
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.Fullname)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.Username)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.Email)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.DiscoAb)
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Fullname)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Username)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DiscoAb)
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
+                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

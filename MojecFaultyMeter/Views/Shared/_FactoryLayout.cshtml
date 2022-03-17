@@ -53,7 +53,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href='@Url.Action("Dashboard", "Admin")'><img src="https://mojectimeline.herokuapp.com/pics/mojec_logo.png" style="color:white;width:90px" alt="logo"></a>
+                            <a href='@Url.Action("Dashboard", "Factory")'><img src="https://mojectimeline.herokuapp.com/pics/mojec_logo.png" style="color:white;width:90px" alt="logo"></a>
                             <h1>Faulty Meter</h1>
                         </div>
                     </div>
@@ -88,54 +88,20 @@
                                             <li><a href='@Url.Action("Dashboard", "Admin")'>Dashboard</a></li>
                                         </ul>
                                     </li>
-                                    <li class="active">
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-user"></i><span>
-                                                User
-                                            </span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("RegisterUser", "Admin")'>Create Users</a></li>
-                                            <li><a href='@Url.Action("DiscoUsers", "Admin")'>Disco Users</a></li>
-                                            <li><a href='@Url.Action("FactoryUsers", "Admin")'>Factory Users</a></li>
-                                            <li class="active"><a href='@Url.Action("MojecStoreUsers", "Admin")'>Mojec Store Users</a></li>
-                                        </ul>
-
-                                    </li>
                                     <li class="mega-menu">
                                         <a href="javascript:void(0)"><i class="ti-palette"></i><span>Meter Cases</span></a>
                                         <ul class="submenu">
-                                            <li><a href='@Url.Action("Completecases", "Admin")'>Completed</a></li>
-                                            <li><a href='@Url.Action("Solvedcases", "Admin")'>Solved</a></li>
-                                            <li><a href='@Url.Action("PendingMeters", "Admin")'>Pending</a></li>
-                                            <li><a href='@Url.Action("Replacescases", "Admin")'>Replaced</a></li>
-                                            <li><a href='@Url.Action("Reparingcases", "Admin")'>Repairing</a></li>
-                                            <li><a href='@Url.Action("Acceptedcases", "Admin")'>Accepted</a></li>
-                                            <li><a href='@Url.Action("Rejectcases", "Admin")'>Rejected</a></li>
-                                            <li><a href='@Url.Action("AwaitingDispatch", "Admin")'>Awaiting Dispatch</a></li>
-                                            <li><a href='@Url.Action("AwaitingReplacement", "Admin")'>Awaiting Replacement</a></li>
+                                            <li><a href='@Url.Action("Completecases", "Factory")'>Completed</a></li>
+                                            <li><a href='@Url.Action("Solvedcases", "Factory")'>Solved</a></li>
+                                            <li><a href='@Url.Action("PendingMeters", "Factory")'>Pending</a></li>
+                                            <li><a href='@Url.Action("Replacescases", "Factory")'>Replaced</a></li>
+                                            <li><a href='@Url.Action("Reparingcases", "Factory")'>Repairing</a></li>
+                                            <li><a href='@Url.Action("Acceptedcases", "Factory")'>Accepted</a></li>
+                                            <li><a href='@Url.Action("Rejectcases", "Factory")'>Rejected</a></li>
+                                            <li><a href='@Url.Action("AwaitingDispatch", "Factory")'>Awaiting Dispatch</a></li>
+                                            <li><a href='@Url.Action("AwaitingReplacement", "Factory")'>Awaiting Replacement</a></li>
                                         </ul>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa fa-table"></i>
-                                            <span>Orders</span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("DispatchedWorkorder", "Admin")'>Return Workorders</a></li>
-                                            <li><a href='@Url.Action("ReturnWorkorder", "Admin")'>Dispatched Workorders</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa fa-table"></i>
-                                            <span>Disco</span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("Discos", "Admin")'>Discos</a></li>
-                                        </ul>
-                                    </li>
+                                    </li>                                  
                                     <li><a href='@Url.Action("UsersLogin", "Authentication")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
                                 </ul>
                             </nav>
@@ -150,8 +116,8 @@
             </div>
         </div>
         <!-- header area end -->
-        <!-- page title area end -->      
-            @RenderBody()       
+        <!-- page title area end -->
+        @RenderBody()
         <!-- main content area end -->
         <!-- footer area start-->
         <footer>

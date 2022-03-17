@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="example-email-input" class="col-form-label">Username</label>
-                                        <input class="form-control"  name="Username" type="text" id="example-email-input">
+                                        <input class="form-control" name="Username" type="text" id="example-email-input">
                                     </div>
                                     <div class="form-group">
                                         <label for="example-url-input" class="col-form-label">Password</label>
@@ -95,6 +95,36 @@
                         <div class="card-body">
                             <h4 class="header-title">Factory User</h4>
                             <form action="CreateFactoryUsers" method="post">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="col-form-label">Fullname</label>
+                                    <input class="form-control" name="Fullname" type="text" id="example-text-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="col-form-label">Email</label>
+                                    <input class="form-control" name="Email" type="email" id="example-search-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email-input" class="col-form-label">Username</label>
+                                    <input class="form-control" name="Username" type="text" id="example-email-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-url-input" class="col-form-label">Password</label>
+                                    <input class="form-control" name="Password" type="password" id="example-url-input">
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title">Procurement User</h4>
+                            <form action="CreateProcurementUser" method="post">
                                 <div class="form-group">
                                     <label for="example-text-input" class="col-form-label">Fullname</label>
                                     <input class="form-control" name="Fullname" type="text" id="example-text-input">

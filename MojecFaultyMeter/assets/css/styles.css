@@ -713,12 +713,10 @@ ul.breadcrumbs {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    background: -webkit-linear-gradient(left, #8914fe 0%, #8063f5 100%);
-    background: linear-gradient(to right, #8914fe 0%, #8063f5 100%);
+    flex-wrap: wrap;
     padding: 17px 38px;
     position: relative;
 }
@@ -790,7 +788,7 @@ ul.breadcrumbs {
 
 .user-profile .dropdown-menu a {
     font-size: 14px;
-    color: #8a8a8a;
+    color: black;
     letter-spacing: 0;
     font-weight: 500;
     padding: 4px 120px;
