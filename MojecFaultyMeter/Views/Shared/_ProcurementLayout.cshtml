@@ -86,58 +86,25 @@
                                     <li>
                                         <a href="javascript:void(0)"><i class="ti-dashboard"></i><span>Dashboard</span></a>
                                         <ul class="submenu">
-                                            <li><a href='@Url.Action("Dashboard", "Admin")'>Dashboard</a></li>
+                                            <li><a href='@Url.Action("Dashboard", "Procurement")'>Dashboard</a></li>
                                         </ul>
                                     </li>
-                                    <li class="active">
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-user"></i><span>
-                                                User
-                                            </span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("RegisterUser", "Admin")'>Create Users</a></li>
-                                            <li><a href='@Url.Action("DiscoUsers", "Admin")'>Disco Users</a></li>
-                                            <li><a href='@Url.Action("FactoryUsers", "Admin")'>Factory Users</a></li>
-                                            <li class="active"><a href='@Url.Action("MojecStoreUsers", "Admin")'>Mojec Store Users</a></li>
-                                        </ul>
-
-                                    </li>
+                                    
                                     <li class="mega-menu">
                                         <a href="javascript:void(0)"><i class="ti-palette"></i><span>Meter Cases</span></a>
                                         <ul class="submenu">
-                                            <li><a href='@Url.Action("Completecases", "Admin")'>Completed</a></li>
-                                            <li><a href='@Url.Action("Solvedcases", "Admin")'>Solved</a></li>
-                                            <li><a href='@Url.Action("PendingMeters", "Admin")'>Pending</a></li>
-                                            <li><a href='@Url.Action("Replacescases", "Admin")'>Replaced</a></li>
-                                            <li><a href='@Url.Action("Reparingcases", "Admin")'>Repairing</a></li>
-                                            <li><a href='@Url.Action("Acceptedcases", "Admin")'>Accepted</a></li>
-                                            <li><a href='@Url.Action("Rejectcases", "Admin")'>Rejected</a></li>
-                                            <li><a href='@Url.Action("AwaitingDispatch", "Admin")'>Awaiting Dispatch</a></li>
-                                            <li><a href='@Url.Action("AwaitingReplacement", "Admin")'>Awaiting Replacement</a></li>
+                                            <li><a href='@Url.Action("Completecases", "Procurement")'>Completed</a></li>
+                                            <li><a href='@Url.Action("Solvedcases", "Procurement")'>Solved</a></li>
+                                            <li><a href='@Url.Action("PendingMeters", "Procurement")'>Pending</a></li>
+                                            <li><a href='@Url.Action("Replacescases", "Procurement")'>Replaced</a></li>
+                                            <li><a href='@Url.Action("Reparingcases", "Procurement")'>Repairing</a></li>
+                                            <li><a href='@Url.Action("Acceptedcases", "Procurement")'>Accepted</a></li>
+                                            <li><a href='@Url.Action("Rejectcases", "Procurement")'>Rejected</a></li>
+                                            <li><a href='@Url.Action("AwaitingDispatch", "Procurement")'>Awaiting Dispatch</a></li>
+                                            <li><a href='@Url.Action("AwaitingReplacement", "Procurement")'>Awaiting Replacement</a></li>
                                         </ul>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa fa-table"></i>
-                                            <span>Orders</span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("DispatchedWorkorder", "Admin")'>Return Workorders</a></li>
-                                            <li><a href='@Url.Action("ReturnWorkorder", "Admin")'>Dispatched Workorders</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa fa-table"></i>
-                                            <span>Disco</span>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href='@Url.Action("Discos", "Admin")'>Discos</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href='@Url.Action("UsersLogin", "Authentication")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
+                                    </li>                                
+                                    <li><a href='@Url.Action("UsersLogin", "Procurement")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
                                 </ul>
                             </nav>
                         </div>

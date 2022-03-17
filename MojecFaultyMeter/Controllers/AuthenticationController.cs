@@ -220,6 +220,8 @@ namespace MojecFaultyMeter.Controllers
         {
             return View();
         }
+
+        [HttpPost]
         public ActionResult ProcurementLogin(string Username, string Password)
         {
             string username = "";

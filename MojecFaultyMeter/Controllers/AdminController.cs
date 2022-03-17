@@ -260,18 +260,19 @@ namespace MojecFaultyMeter.Controllers
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
-                SqlCommand cmd = new SqlCommand("getallFactoryUsers", con);
+                SqlCommand cmd = new SqlCommand("GetallProcurementUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    FactoryUsers user = new FactoryUsers();
-                    user.UserID = Convert.ToInt32(rdr["FactoryUserID"].ToString());
-                    user.Fullname = rdr["F_FullName"].ToString();
+                    ProcurementUsers user = new ProcurementUsers();
+                    user.UserID = Convert.ToInt32(rdr["ProcurementUserID"].ToString());
+                    user.Fullname = rdr["FullName"].ToString();
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["UserName"].ToString();
-                    _factoryusers.Add(user);
+                    
+                    _procurementUsers.Add(user);
                 }
                 rdr.Close();
             }
@@ -618,16 +619,87 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+        public ActionResult ActivateDiscouser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("ActivateDiscoUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DiscoUserID", Id);
+            }
+            TempData["save"] = "Disco user has been activated successfully";
+            return RedirectToAction("DiscoUsers");
+        }
+        public ActionResult DeactivateDiscouser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeactivateDiscoUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DiscoUserID", Id);
+            }
+            TempData["save"] = "Disco user has been Deactivated successfully";
+            return RedirectToAction("DiscoUsers");
+        }
+        public ActionResult ActivateFactoryuser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("ActivateFactoryUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FactoryUserID", Id);
+            }
+            TempData["save"] = "Factory user has been activated successfully";
+            return RedirectToAction("FactoryUsers");
+        }
+        public ActionResult DeactivateFactoryuser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeactivateFactoryUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FactoryUserID", Id);
+            }
+            TempData["save"] = "Factory user has been Deactivated successfully";
+            return RedirectToAction("FactoryUsers");
+        }
+        public ActionResult ActivateStoreuser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("ActivateMojecStoreUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MojecStoreUserID ", Id);
+            }
+            TempData["save"] = "Mojec store user has been activated successfully";
+            return RedirectToAction("MojecStoreUsers");
+        }
+        public ActionResult DeactivateStoreuser(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeactivateMojecStoreUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MojecStoreUserID ", Id);
+            }
+            TempData["save"] = "Mojec store user has been Deactivated successfully";
+            return RedirectToAction("MojecStoreUsers");
+        }
+        public ActionResult ActivateProcurementuser(int Id)
+        {
+            return View();
+        }
+        public ActionResult DeactivateProcurementuser(int Id)
+        {
+            return View();
+        }
 
 
 
 
 
 
-     
-        
 
 
-             
     }
 }

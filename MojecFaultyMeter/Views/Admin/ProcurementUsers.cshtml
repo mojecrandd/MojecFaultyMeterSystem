@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MojecFaultyMeter.Models.FactoryUsers>
-
+﻿@model IEnumerable<MojecFaultyMeter.Models.ProcurementUsers>
 @{
-    ViewBag.Title = "FactoryUsers";
+    ViewBag.Title = "ProcurementUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="main-content">
@@ -18,13 +18,13 @@
                                             <a href="@Url.Action("RegisterUser", "Admin")" class="btn btn-outline-primary">
                                                 <i class="fas fa-plus-square"></i>
                                                 <span>
-                                                    <strong>Add Disco</strong>
+                                                    <strong>Add User</strong>
                                                 </span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <h4 class="header-title">Factory User</h4>
+                                <h4 class="header-title">Procurement User</h4>
                                 <div class="data-tables datatable-primary">
                                     <table id="dataTable3">
                                         <thead class="text-capitalize">
@@ -38,6 +38,7 @@
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.Email)
                                                 </th>
+                                              
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -54,8 +55,8 @@
                                                     @Html.DisplayFor(modelItem => item.Email)
                                                 </td>
                                                 <td>
-                                                    <a href="@Url.Action("ActivateFactoryuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
-                                                    <a href="@Url.Action("DeactivateFactoryuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
+                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
+                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -71,30 +72,3 @@
     </div>
 </div>
 
-@section Scripts{
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script type="text/javascript">
-  $(function(){
-     var save = '@TempData["save"]'
-if(save!=null)
-{
- alertify.success(save);
-}
-var edit = '@TempData["edit"]'
-if(edit!='')
-{
-    alertify.success(edit);
-}
- var del = '@TempData["delete"]'
-if(del!='')
-{
-    alertify.error(del);
-}
- })
-        function Deactivate(id) {
-            alertify.confirm('Meter Maintainance System', 'Are You Sure to Deactivate this staff?', function () {
-                window.location.href = '@Url.Action("DeactivateRegionStaff","Admin")/'+id;
-            },null);
-        }
-    </script>
-}

@@ -55,8 +55,8 @@
                                                     @Html.DisplayFor(modelItem => item.Email)
                                                 </td>
                                                 <td>
-                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
-                                                    <a href="@Url.Action("KYCDetails","MOJECIE", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
+                                                    <a href="@Url.Action("ActivateStoreuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
+                                                    <a href="@Url.Action("DeactivateStoreuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -71,5 +71,32 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+  $(function(){
+     var save = '@TempData["save"]'
+if(save!=null)
+{
+ alertify.success(save);
+}
+var edit = '@TempData["edit"]'
+if(edit!='')
+{
+    alertify.success(edit);
+}
+ var del = '@TempData["delete"]'
+if(del!='')
+{
+    alertify.error(del);
+}
+ })
+        function Deactivate(id) {
+            alertify.confirm('Meter Maintainance System', 'Are You Sure to Deactivate this staff?', function () {
+                window.location.href = '@Url.Action("DeactivateRegionStaff","Admin")/'+id;
+            },null);
+        }
+    </script>
+}
 
 
