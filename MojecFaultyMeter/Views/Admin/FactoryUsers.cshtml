@@ -18,7 +18,7 @@
                                             <a href="@Url.Action("RegisterUser", "Admin")" class="btn btn-outline-primary">
                                                 <i class="fas fa-plus-square"></i>
                                                 <span>
-                                                    <strong>Add Disco</strong>
+                                                    <strong>Add User</strong>
                                                 </span>
                                             </a>
                                         </div>
@@ -53,9 +53,9 @@
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Email)
                                                 </td>
-                                                <td>
-                                                    <a href="@Url.Action("ActivateFactoryuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-check"></i></a>
-                                                    <a href="@Url.Action("DeactivateFactoryuser","Admin", new { id = item.UserID})"><i class="fa-solid fa-user-slash"></i></a>
+                                                <td class="btn-group">
+                                                    @Html.ActionLink("Activate", "ActivateFactoryuser", new { id = item.UserID }, new { @class = "btn btn-primary" })
+                                                    @Html.ActionLink("Deactivate", "DeactivateFactoryuser", new { id = item.UserID }, new { @class = "btn btn-danger" })                                
                                                 </td>
                                             </tr>
                                         }

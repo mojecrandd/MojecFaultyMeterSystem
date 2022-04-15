@@ -27,7 +27,7 @@
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.Disco)
                                                 </th>
-                                                <th></th>
+                                                
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
@@ -42,12 +42,7 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Disco)
-                                                </td>
-                                                <td>
-                                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                                </td>
+                                                </td>                                              
                                             </tr>
                                         }
 

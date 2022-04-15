@@ -14,55 +14,30 @@
                             <div class="card-body">
                                 <h4 class="header-title">Completed Cases</h4>
                                 <div class="data-tables datatable-primary">
-                                    <form>
+                                    @using (Html.BeginForm("DownloadCompletedcases", "Procurement", FormMethod.Post))
+                                    {
                                         <div class="form-row align-items-center">
                                             <div class="col-sm-3 my-1">
                                                 <label class="sr-only" for="inlineFormInputName">Date</label>
-                                                <input type="date" class="form-control" id="inlineFormInputName" placeholder="Jane Doe">
+                                                <input type="date" name="date1" class="form-control" id="inlineFormInputName" placeholder="Jane Doe">
                                             </div>
                                             <div class="col-sm-3 my-1">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername">Date</label>
-                                                <input type="date" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+                                                <input type="date" name="date2" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
                                             </div>
                                             <div class="col-auto my-1">
                                                 <button type="submit" class="btn btn-primary">Download</button>
                                             </div>
                                         </div>
-                                        <div class="form-row align-items-center">
-                                            <div class="col-sm-3 my-1">
-                                                <label class="sr-only" for="inlineFormInputName">Date</label>
-                                                <input type="date" class="form-control" id="inlineFormInputName" placeholder="Jane Doe">
-                                            </div>
-                                            <div class="col-sm-3 my-1">
-                                                <label class="sr-only" for="inlineFormInputGroupUsername">Date</label>
-                                                <input type="date" class="form-control" id="inlineFormInputName" placeholder="Jane Doe">
-                                            </div>
-                                            <div class="col-sm-3 my-1">
-                                                <select class="custom-select" name="DiscoID">
-                                                    <option selected="selected">Select Disco</option>
-                                                    <option value="1">AEDC</option>
-                                                    <option value="2">EEDC</option>
-                                                    <option value="3">IBEDC</option>
-                                                    <option value="4">JEDC</option>
-                                                    <option value="5">KE</option>
-                                                    <option value="6">EKEDC</option>
-                                                    <option value="7">KEDCO</option>
-                                                    <option value="8">PHEDC</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto my-1">
-                                                <button type="submit" class="btn btn-primary">Download</button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-
-
+                                    }
                                     <table id="dataTable3" class="table-responsive-lg">
                                         <thead class="text-capitalize">
                                             <tr>
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.MeterNo)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.WorkOrderID)
                                                 </th>
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.CustomerName)
@@ -92,49 +67,46 @@
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.DiscoUser)
                                                 </th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
+                                    <tr>
 
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.MeterNo)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CustomerName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.AccountNo)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.MeterType)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Status)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Replacementstat)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ReturnDate)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.AcceptedBy)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.TreatedBy)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DiscoUser)
-                                                </td>
-                                                <td>
-                                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                                </td>
-                                            </tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MeterNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkOrderID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AccountNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MeterType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Replacementstat)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReturnDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AcceptedBy)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TreatedBy)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DiscoUser)
+                                        </td>
+                                    </tr>
                                         }
 
                                     </table>

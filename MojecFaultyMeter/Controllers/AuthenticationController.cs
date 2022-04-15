@@ -73,9 +73,10 @@ namespace MojecFaultyMeter.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult MojecstoreLogin(string Username, string Password)
+        public ActionResult MojecstoreLogin(string Username, string Password, int? userId)
         {
             string username = "";
+          
             bool found = false;
             SqlDataReader dr;
             connectionString();
@@ -89,9 +90,12 @@ namespace MojecFaultyMeter.Controllers
             if (dr.Read())
             {
                 found = true;
+                userId =  Convert.ToInt32(dr["MojecStoreUserID"].ToString());
                 username = dr["M_Fullname"].ToString();
                 FormsAuthentication.SetAuthCookie(Username, true);
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(userId).ToString(), true);
                 Session["M_Fullname"] = Username.ToString();
+                Session["UserID"] = userId.ToString();
             }
             else
             {
@@ -101,9 +105,11 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             if (found == true)
             {
-
+                
                 FormsAuthentication.SetAuthCookie(Username, true);
-                Session["Username"] = Username.ToString();
+                Session["M_Fullname"] = username.ToString();
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(userId).ToString(), true);
+                Session["UserID"] = userId.ToString();
                 return RedirectToAction("Dashboard", "Store");
 
             }
@@ -119,7 +125,7 @@ namespace MojecFaultyMeter.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult FactoryLogin(string Username, string Password)
+        public ActionResult FactoryLogin(string Username, string Password, int? UserID)
         {
             string username = "";
             bool found = false;
@@ -135,6 +141,7 @@ namespace MojecFaultyMeter.Controllers
             if (dr.Read())
             {
                 found = true;
+                UserID = Convert.ToInt32(dr["FactoryUserID"].ToString());
                 username = dr["F_Fullname"].ToString();
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["F_Fullname"] = Username.ToString();
@@ -148,8 +155,10 @@ namespace MojecFaultyMeter.Controllers
             if (found == true)
             {
 
+                FormsAuthentication.SetAuthCookie(Convert.ToUInt32(UserID).ToString(), true);
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["Username"] = Username.ToString();
+                Session["UserID"] = UserID.ToString();
                 return RedirectToAction("Dashboard", "Factory");
 
             }
@@ -215,14 +224,13 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             return View();
         }
-
         public ActionResult ProcurementLogin()
         {
             return View();
         }
-
         [HttpPost]
-        public ActionResult ProcurementLogin(string Username, string Password)
+        public ActionResult ProcurementLogin(string Username, string Password, int? UserID)
+        
         {
             string username = "";
             bool found = false;
@@ -238,6 +246,7 @@ namespace MojecFaultyMeter.Controllers
             if (dr.Read())
             {
                 found = true;
+                UserID = Convert.ToInt32(dr["ProcurementUserID"].ToString());
                 username = dr["Fullname"].ToString();
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["Fullname"] = Username.ToString();
@@ -250,9 +259,10 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             if (found == true)
             {
-
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(UserID).ToString(),true);
                 FormsAuthentication.SetAuthCookie(Username, true);
                 Session["Username"] = Username.ToString();
+                Session["UserID"] = UserID.ToString();  
                 return RedirectToAction("Dashboard", "Procurement");
 
             }

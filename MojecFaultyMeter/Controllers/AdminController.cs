@@ -2,6 +2,7 @@
 using MojecFaultyMeter.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace MojecFaultyMeter.Controllers
         List<FaultyMeters> _faulty = new List<FaultyMeters>();
         List<DispatchOrders> _dispatchOrders = new List<DispatchOrders>();
         List<ProcurementUsers>  _procurementUsers = new List<ProcurementUsers>();
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MojecFaultyMeter"].ConnectionString);
         // GET: Admin
         public ActionResult Index()
         {
@@ -27,23 +29,58 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Dashboard()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select Count(*) from FaultyMeters", con);
+            int r = Convert.ToInt32(cmd.ExecuteScalar());
+            ViewBag.Total = r;
+
+            SqlCommand cmd1 = new SqlCommand("select Count(*) from FaultyMeters where Status = 'Pending' ", con);
+            int r1 = Convert.ToInt32(cmd1.ExecuteScalar());
+            ViewBag.Pending = r1;
+
+            SqlCommand cmd2 = new SqlCommand("select Count(*) from FaultyMeters where Status = 'Recieved'", con);
+            int r2 = Convert.ToInt32(cmd2.ExecuteScalar());
+            ViewBag.Completed = r2;
+
+
+            SqlCommand cmd3 = new SqlCommand("select Count(*) from FaultyMeters where Status = 'Solved'", con);
+            int r3 = Convert.ToInt32(cmd3.ExecuteScalar());
+            ViewBag.Solved = r3;
+
+            con.Close();
+
             return View();
+
+
         }
-        public ActionResult Dicos()
-        {
-            return View();
-        }
+        
         public ActionResult CreateDicos()
         {
-
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             return View();
         }
         public ActionResult CreateMojecstore()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             return View();
         }
         public ActionResult Discos()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _discos = new List<Discos>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -67,11 +104,16 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult CreateDisco()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             return View();
         }
         [HttpPost]
         public ActionResult CreateDisco(Discos discos)
         {
+
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
                 using (SqlCommand cmd = new SqlCommand("AddDiscos", con))
@@ -93,6 +135,10 @@ namespace MojecFaultyMeter.Controllers
         }  
         public ActionResult CreateProcurementUser(ProcurementUsers user)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
                 using (SqlCommand cmd = new SqlCommand("InsertProcurementUser", con))
@@ -115,6 +161,7 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult RegisterUser()
         {
+            ViewBag.Disco = PopulateDisco();
             return View();
         }
         public ActionResult CreateDiscoUsers(DiscoUser user)
@@ -186,6 +233,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult DiscoUsers()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _discoUsers = new List<DiscoUser>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -210,6 +261,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult MojecStoreUsers()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _mojecStores = new List<MojecStoreUser>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -233,6 +288,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult FactoryUsers()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _factoryusers = new List<FactoryUsers>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -256,6 +315,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult ProcurementUsers()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _procurementUsers = new List<ProcurementUsers>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -284,6 +347,12 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult PendingMeters()
         {
+
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -301,12 +370,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
 
                     _faulty.Add(fault);
                 }
@@ -317,6 +387,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Completecases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
 
             _faulty = new List<FaultyMeters>();
 
@@ -335,12 +410,52 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+        public ActionResult Dispatchedcases()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
+
+            _faulty = new List<FaultyMeters>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetDispatchedMetersForAdmin", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
 
                     _faulty.Add(fault);
                 }
@@ -350,6 +465,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Solvedcases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -367,13 +487,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -382,6 +502,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Replacescases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -399,12 +524,14 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+                    fault.MeterReplacementNo = rdr["MeterReplacementNo"].ToString();
 
                     _faulty.Add(fault);
                 }
@@ -414,6 +541,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Reparingcases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -431,13 +563,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -446,6 +578,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult ReturnWorkorder()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -461,7 +597,7 @@ namespace MojecFaultyMeter.Controllers
                     fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     fault.Disco = rdr["Discosn"].ToString();
                     fault.DiscoUser = rdr["D_FullName"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
 
                     _faulty.Add(fault);
                 }
@@ -471,6 +607,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult DispatchedWorkorder()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
             _dispatchOrders = new List<DispatchOrders>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -495,6 +635,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Acceptedcases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -512,13 +657,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -527,6 +672,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult Rejectcases()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -544,13 +694,14 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+                    fault.Rejectcomment = rdr["RejectionComment"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -559,6 +710,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult AwaitingDispatch()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -576,13 +732,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -591,6 +747,11 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult AwaitingReplacement()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
             _faulty = new List<FaultyMeters>();
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
@@ -606,13 +767,13 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterNo = rdr["MeterNo"].ToString();
                     fault.Replacementstat = rdr["Replacementstat"].ToString();
                     fault.Status = rdr["Status"].ToString();
-                    fault.ReturnDate = Convert.ToDateTime(rdr["ReturnDate"].ToString());
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
                     fault.AcceptedBy = rdr["M_Fullname"].ToString();
                     fault.TreatedBy = rdr["F_Fullname"].ToString();
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -687,12 +848,83 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult ActivateProcurementuser(int Id)
         {
-            return View();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("ActivateProcurementUsers", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProcurementUserID", Id);
+            }
+            TempData["save"] = "Procurement user has been activated successfully";
+            return RedirectToAction("ProcurementUsers");
         }
         public ActionResult DeactivateProcurementuser(int Id)
         {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeactivateProcurementUserss", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProcurementUserID", Id);
+            }
+            TempData["save"] = "Procurement user has been Deactivated successfully";
+            return RedirectToAction("ProcurementUsers");
+        }
+        private static List<Discos> PopulateDisco()
+        {
+            List<Discos> discos = new List<Discos>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("select * from  Disco", con))
+                {
+                    cmd.Connection = con;
+
+                    con.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            discos.Add(
+                                new Discos
+                                {
+                                    DiscoID = Convert.ToInt32(sdr["DiscoID"]),
+                                    DiscoAB = sdr["Discosn"].ToString()
+                                }
+
+                                );
+                        }
+                        con.Close();
+                    }
+
+
+                }
+
+                return discos;
+
+            }
+        }
+        public ActionResult GetMeterDetails(string Id)
+        {
             return View();
         }
+        public ActionResult DownloadCompletedcases(string date1,string date2)
+        {
+            return Redirect("http://mojecdataapi.azurewebsites.net/api/CompletedFile/Download?date1=" + date1 + "&&date2=" + date2);          
+        }
+        public ActionResult DownloadRejectedcases(string date1,string date2)
+        {
+            return Redirect("http://mojecdataapi.azurewebsites.net/api/RejectedFile/Download?date1=" + date1 + "&&date2=" + date2);
+        }
+        public ActionResult DownloadReplacedcases(string date1, string date2)
+        {
+            return Redirect("http://mojecdataapi.azurewebsites.net/api/ReplacedFile/Download?date1=" + date1 + "&&date2=" + date2);
+        }
+
+
+
+
+
 
 
 

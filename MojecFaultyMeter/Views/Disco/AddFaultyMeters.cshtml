@@ -68,10 +68,34 @@
                                             </select>
 
                                         </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom04">Comment</label>
+                                            <input type="text" class="form-control" name="Faultcomment" id="validationCustom04" placeholder="Comment" required="">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom04">Workorder Type</label>
+                                            <select class="custom-select" name="WorkorderType" required>
+                                                <option selected="selected">Select Type</option>
+                                                <option>Return</option>
+                                                <option>Onsite</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-md-3 mb-3">s
+                                            <label for="validationCustom04">Date Recieved</label>
+                                            <input type="date" class="form-control" name="Daterecieved" id="validationCustom04" placeholder="Comment" required="">
+
+                                        </div>
                                     </div>
 
                                     <button class="btn btn-outline-primary" type="submit">Add List</button>
                                     <a class="btn btn-outline-primary" href="@Url.Action("ConfirmList", "Disco")">Confirm List</a>
+                                    <a class="btn btn-outline-primary" href="@Url.Action("ReturnUploadWorkorder", "Disco")">Batch Upload</a>
                                 </form>
                             </div>
                         </div>

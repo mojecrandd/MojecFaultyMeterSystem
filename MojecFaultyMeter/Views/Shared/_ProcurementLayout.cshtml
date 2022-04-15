@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>srtdash - SEO Dashboard</title>
+    <title>Mojec Faulty Meters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="~/assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
@@ -54,7 +54,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href='@Url.Action("Dashboard", "Admin")'><img src="https://mojectimeline.herokuapp.com/pics/mojec_logo.png" style="color:white;width:90px" alt="logo"></a>
+                            <a href='@Url.Action("Dashboard", "Procurement")'><img src="https://mojectimeline.herokuapp.com/pics/mojec_logo.png" style="color:white;width:90px" alt="logo"></a>
                             <h1>Faulty Meter</h1>
                         </div>
                     </div>
@@ -102,9 +102,10 @@
                                             <li><a href='@Url.Action("Rejectcases", "Procurement")'>Rejected</a></li>
                                             <li><a href='@Url.Action("AwaitingDispatch", "Procurement")'>Awaiting Dispatch</a></li>
                                             <li><a href='@Url.Action("AwaitingReplacement", "Procurement")'>Awaiting Replacement</a></li>
+                                            <li><a href='@Url.Action("Dispatchedcases", "Procurement")'>Dispatched</a></li>
                                         </ul>
                                     </li>                                
-                                    <li><a href='@Url.Action("UsersLogin", "Procurement")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
+                                    <li><a href='@Url.Action("UsersLogin", "Authentication")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
                                 </ul>
                             </nav>
                         </div>

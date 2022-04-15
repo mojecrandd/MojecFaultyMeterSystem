@@ -27,13 +27,13 @@
                                                 <th>
                                                     @Html.DisplayNameFor(model => model.ReturnDate)
                                                 </th>
-                                                <th></th>
+                                        
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                BN N <td>
+                                                <td>
                                                     @Html.DisplayFor(modelItem => item.WorkOrderID)
                                                 </td>
                                                 <td>
@@ -41,12 +41,7 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.ReturnDate)
-                                                </td>
-                                                <td>
-                                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                                </td>
+                                                </td>                                                
                                             </tr>
                                         }
 

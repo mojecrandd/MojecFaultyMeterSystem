@@ -1,4 +1,4 @@
-﻿
+﻿@model MojecFaultyMeter.Models.FaultyMeters
 @{
     ViewBag.Title = "RegisterUser";
 }
@@ -35,7 +35,7 @@
                                         <input class="form-control" name="Password" type="password" id="example-url-input">
                                     </div>
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                        <button class="btn btn-outline-primary" type="submit">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -50,17 +50,7 @@
                                 <form action="CreateDiscoUsers" method="post">
                                     <div class="form-group">
                                         <label class="col-form-label">Disco</label>
-                                        <select class="custom-select" name="DiscoID">
-                                            <option selected="selected">Select Disco</option>
-                                            <option value="1">AEDC</option>
-                                            <option value="2">EEDC</option>
-                                            <option value="3">IBEDC</option>
-                                            <option value="4">JEDC</option>
-                                            <option value="5">KE</option>
-                                            <option value="6">EKEDC</option>
-                                            <option value="7">KEDCO</option>
-                                            <option value="8">PHEDC</option>
-                                        </select>
+                                        @Html.DropDownListFor(model => model.DiscoID, new SelectList(ViewBag.Disco, "DiscoID", "DiscoAB"), "--Select Disco--", new { @class = "form-control" })
                                     </div>
                                     <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">Fullname</label>
@@ -79,7 +69,7 @@
                                         <input class="form-control" name="Password" type="password" id="example-url-input">
                                     </div>
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                        <button class="btn btn-outline-primary" type="submit">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -112,7 +102,7 @@
                                     <input class="form-control" name="Password" type="password" id="example-url-input">
                                 </div>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                    <button class="btn btn-outline-primary" type="submit">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -142,7 +132,7 @@
                                     <input class="form-control" name="Password" type="password" id="example-url-input">
                                 </div>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                    <button class="btn btn-outline-primary" type="submit">Save</button>
                                 </div>
                             </form>
                         </div>

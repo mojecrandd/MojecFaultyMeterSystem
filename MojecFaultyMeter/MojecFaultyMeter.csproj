@@ -47,7 +47,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mailjet.Client, Version=2.0.2.0, Culture=neutral, PublicKeyToken=c297171c8bcce79f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mailjet.Api.2.0.2\lib\net45\Mailjet.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -101,9 +107,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -127,7 +130,6 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\DiscoController.cs" />
     <Compile Include="Controllers\FactoryController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
@@ -333,9 +335,24 @@
     <Content Include="Views\Procurement\AwaitingDispatch.cshtml" />
     <Content Include="Views\Procurement\AwaitingReplacement.cshtml" />
     <Content Include="Views\Admin\ProcurementUsers.cshtml" />
+    <Content Include="Views\Disco\FaultyMeterDetails.cshtml" />
+    <Content Include="Views\Disco\FaultyMeterDetail.cshtml" />
+    <Content Include="Views\Disco\GetOrderDetails.cshtml" />
+    <Content Include="Views\Store\GetworkorderList.cshtml" />
+    <Content Include="Views\Store\RejectMetercase.cshtml" />
+    <Content Include="Views\Procurement\Replacemeter.cshtml" />
+    <Content Include="Views\Admin\Dispatchedcases.cshtml" />
+    <Content Include="Views\Factory\Dispatchedcases.cshtml" />
+    <Content Include="Views\Procurement\Dispatchedcases.cshtml" />
+    <Content Include="Views\Store\Dispatchedcases.cshtml" />
+    <Content Include="Views\Disco\Dispatchedcases.cshtml" />
+    <Content Include="Views\Disco\AddFaultyMetersOnsite.cshtml" />
+    <Content Include="Views\Disco\ReturnUploadWorkorder.cshtml" />
+    <Content Include="Views\Disco\OnsiteUploadworkorder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="excelfolder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
