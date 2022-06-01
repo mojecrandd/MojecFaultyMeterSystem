@@ -138,6 +138,19 @@
                                             <li><a href='@Url.Action("Discos", "Admin")'>Discos</a></li>
                                         </ul>
                                     </li>
+                                    <li class="active">
+                                        <a href="javascript:void(0)">
+                                            <i class="fa-solid fa-gear"></i><span>
+                                                Configuration
+                                            </span>
+                                        </a>
+                                        <ul class="submenu">
+                                            <li><a href='@Url.Action("Fault", "Admin")'>Fault</a></li>
+                                            <li><a href='@Url.Action("MeterType", "Admin")'>Meter Type</a></li>
+                                            <li><a href='@Url.Action("Model", "Admin")'>Meter Model</a></li>                                  
+                                        </ul>
+
+                                    </li>
                                     <li><a href='@Url.Action("UsersLogin", "Authentication")'><i class="ti-map-alt"></i> <span>Logout</span></a></li>
                                 </ul>
                             </nav>

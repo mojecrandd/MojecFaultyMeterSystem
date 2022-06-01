@@ -60,6 +60,9 @@ namespace MojecFaultyMeter.Controllers
             {
                 return RedirectToAction("UsersLogin", "Authentication");
             }
+            ViewBag.Fault = PopulateFault();
+            ViewBag.Model = PopulateModel();
+            ViewBag.MeterType = PopulateMeterType();
             return View();
         }
         [HttpPost]
@@ -87,6 +90,8 @@ namespace MojecFaultyMeter.Controllers
                     cmd.Parameters.AddWithValue("@Fault", faulty.Fault);
                     cmd.Parameters.AddWithValue("@DiscoUserID", DiscoUserID);
                     cmd.Parameters.AddWithValue("@FaultyComment", faulty.Faultcomment);
+                    cmd.Parameters.AddWithValue("@WorkOrderType", faulty.Faultcomment);
+                    cmd.Parameters.AddWithValue("@DateRecieved", faulty.Faultcomment);
                     if (con.State != System.Data.ConnectionState.Open)
 
                         con.Open();
@@ -101,7 +106,9 @@ namespace MojecFaultyMeter.Controllers
 
         public ActionResult AddFaultyMetersOnsite()
         {
+            
             return View();
+            
         }
         [HttpGet]
         public ActionResult ReturnWorkOrder()
@@ -827,6 +834,117 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             TempData["save"] = "Upload successful";
             return View();
+        }
+
+        private static List<Fault> PopulateFault()
+        {
+            List<Fault> fault = new List<Fault>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("select * from  Fault_Tbl", con))
+                {
+                    cmd.Connection = con;
+
+                    con.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            fault.Add(
+                                new Fault
+                                {
+                                    FaultID = Convert.ToInt32(sdr["FaultID"]),
+                                    Faultname = sdr["Fault"].ToString()
+                                }
+
+                                );
+                        }
+                        con.Close();
+                    }
+
+
+                }
+
+                return fault;
+
+            }
+        }
+
+        private static List<MeterModel> PopulateModel()
+        {
+            List<MeterModel> model = new List<MeterModel>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("select * from  MeterModel", con))
+                {
+                    cmd.Connection = con;
+
+                    con.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            model.Add(
+                                new MeterModel
+                                {
+                                    ModelID = Convert.ToInt32(sdr["ModelID"]),
+                                    Modelname = sdr["Model"].ToString()
+                                }
+
+                                );
+                        }
+                        con.Close();
+                    }
+
+
+                }
+
+                return model;
+
+            }
+        }
+
+        private static List<MeterType> PopulateMeterType()
+        {
+            List<MeterType> meter = new List<MeterType>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("select * from  MeterType", con))
+                {
+                    cmd.Connection = con;
+
+                    con.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            meter.Add(
+                                new MeterType
+                                {
+                                    MetertypeID = Convert.ToInt32(sdr["MeterTypeID"]),
+                                    MetertypeName = sdr["MeterType"].ToString()
+                                }
+
+                                );
+                        }
+                        con.Close();
+                    }
+
+
+                }
+
+                return meter;
+
+            }
         }
         public ActionResult DownloadCompletedcases(string date1, string date2)
         {

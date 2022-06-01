@@ -21,6 +21,9 @@ namespace MojecFaultyMeter.Controllers
         List<FaultyMeters> _faulty = new List<FaultyMeters>();
         List<DispatchOrders> _dispatchOrders = new List<DispatchOrders>();
         List<ProcurementUsers>  _procurementUsers = new List<ProcurementUsers>();
+        List<Fault> _faults = new List<Fault>();
+        List<MeterModel> _model = new List<MeterModel>();
+        List<MeterType> _metertype = new List<MeterType>();
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MojecFaultyMeter"].ConnectionString);
         // GET: Admin
         public ActionResult Index()
@@ -920,6 +923,352 @@ namespace MojecFaultyMeter.Controllers
         {
             return Redirect("http://mojecdataapi.azurewebsites.net/api/ReplacedFile/Download?date1=" + date1 + "&&date2=" + date2);
         }
+        public ActionResult AddFault()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddFault(Fault fault)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("AddFault", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Fault", fault.Faultname);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Fault has been saved successfully";
+            return RedirectToAction("Fault");
+        }
+        public ActionResult GetFault(int Id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            Fault fault = new Fault();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("getFaultByID", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@FaultID", Id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    fault.FaultID = Convert.ToInt32(rdr["FaultID"].ToString());
+                    fault.Faultname = rdr["Fault"].ToString();
+                }
+            }
+            return View(fault);
+        }
+        [HttpPost]
+        public ActionResult GetFault(Fault fault)
+        {
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateFault", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Fault", fault.Faultname);
+                    cmd.Parameters.AddWithValue("@FaultId", fault.FaultID);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Fault has been updated successfully";
+            return RedirectToAction("Fault");
+        }
+        public ActionResult DeleteFault(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteFault", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FaultId", Id);
+                if (con.State != System.Data.ConnectionState.Open)
+
+                    con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            TempData["save"] = "Fault has been deleted successfully";
+            return RedirectToAction("Fault");
+        }
+        public ActionResult Fault()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faults = new List<Fault>();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetFault", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Fault fault = new Fault();
+                    fault.FaultID = Convert.ToInt32(rdr["FaultID"].ToString());
+                    fault.Faultname = rdr["Fault"].ToString();
+                    _faults.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faults);
+        }
+
+        public ActionResult AddModel()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddModel(MeterModel model)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("AddModel", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Model", model.Modelname);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Model has been saved successfully";
+            return RedirectToAction("Model");
+        }
+
+        public ActionResult Model()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _model = new List<MeterModel>();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetModel", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    MeterModel model = new MeterModel();
+                    model.ModelID = Convert.ToInt32(rdr["ModelID"].ToString());
+                    model.Modelname = rdr["Model"].ToString();
+                    _model.Add(model);
+                }
+                rdr.Close();
+            }
+            return View(_model);
+        }
+
+        public ActionResult GetModel(int Id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            MeterModel model = new MeterModel();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("getModelByID", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@ModelID", Id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    model.ModelID = Convert.ToInt32(rdr["ModelID"].ToString());
+                    model.Modelname = rdr["Model"].ToString();
+                }
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult GetModel(MeterModel model)
+        {
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateModel", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Model", model.Modelname);
+                    cmd.Parameters.AddWithValue("@ModelId", model.ModelID);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Model has been updated successfully";
+            return RedirectToAction("Model");
+        }
+
+        public ActionResult DeleteModel(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteModel", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ModelId", Id);
+                if (con.State != System.Data.ConnectionState.Open)
+
+                    con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            TempData["save"] = "Model has been deleted successfully";
+            return RedirectToAction("Model");
+        }
+
+
+        public ActionResult AddMeterType()
+        {
+            //if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            //{
+            //    return RedirectToAction("UsersLogin", "Authentication");
+            //}
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddMeterType(MeterType meter)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("AddMeterType", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MeterType", meter.MetertypeName);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Meter has been saved successfully";
+            return RedirectToAction("MeterType");
+        }
+
+        public ActionResult MeterType()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _metertype = new List<MeterType>();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("getMeterType", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    MeterType meter = new MeterType();
+                    meter.MetertypeID = Convert.ToInt32(rdr["MeterTypeID"].ToString());
+                    meter.MetertypeName = rdr["MeterType"].ToString();
+                    _metertype.Add(meter);
+                }
+                rdr.Close();
+            }
+            return View(_metertype);
+        }
+
+        public ActionResult GetMeterType(int Id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            MeterType meter = new MeterType();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("getMeterTypeById", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@MeterTypeID", Id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    meter.MetertypeID = Convert.ToInt32(rdr["MeterTypeID"].ToString());
+                    meter.MetertypeName = rdr["MeterType"].ToString();
+                }
+            }
+            return View(meter);
+        }
+
+        [HttpPost]
+        public ActionResult GetMeterType(MeterType meter)
+        {
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateMeterType", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MeterTypeID", meter.MetertypeID);
+                    cmd.Parameters.AddWithValue("@MeterType", meter.MetertypeName);
+                    if (con.State != System.Data.ConnectionState.Open)
+
+                        con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+            TempData["save"] = "Meter Type has been updated successfully";
+            return RedirectToAction("MeterType");
+        }
+
+        public ActionResult DeleteMeterType(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteMeterType", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MeterTypeID", Id);
+                if (con.State != System.Data.ConnectionState.Open)
+
+                    con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            TempData["save"] = "Meter Type has been deleted successfully";
+            return RedirectToAction("MeterType");
+        }
+
+
+
 
 
 

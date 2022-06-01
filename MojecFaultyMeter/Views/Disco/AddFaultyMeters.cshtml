@@ -6,8 +6,6 @@
 }
 
 <div class="main-content">
-
-
     <div class="main-content-inner">
         <div class="row">
             <div class="col-lg-6 col-ml-12">
@@ -42,42 +40,27 @@
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom05">Meter Type</label>
-                                            <select class="custom-select" name="MeterType">
-                                                <option selected="selected">Select Meter Type</option>
-                                                <option>Single Phase</option>
-                                                <option>Three Phase</option>
-                                            </select>
+                                            @Html.DropDownListFor(model => model.MeterType, new SelectList(ViewBag.MeterType, "MetertypeName", "MetertypeName"), "--Select Meter Type--", new { @class = "custom-select" })
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="validationCustom03">Model</label>
-                                            <select class="custom-select" name="Model">
-                                                <option selected="selected">Select Model</option>
-                                                <option>Model 1</option>
-                                            </select>
+                                            @Html.DropDownListFor(model => model.Model, new SelectList(ViewBag.Model, "Modelname", "Modelname"), "--Select Model--", new { @class = "custom-select" })
 
                                         </div>
                                     </div>
                                     <div class="form-row">
 
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="validationCustom04">Fault</label>
-                                            <select class="custom-select" name="Fault" required>
-                                                <option selected="selected">Select Fault</option>
-                                                <option>Burnt</option>
-                                                <option>Tampered</option>
-                                            </select>
+                                            @Html.DropDownListFor(model => model.Fault, new SelectList(ViewBag.Fault, "Faultname", "Faultname"), "--Select Fault--", new { @class = "custom-select" })
 
                                         </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label for="validationCustom04">Comment</label>
-                                            <input type="text" class="form-control" name="Faultcomment" id="validationCustom04" placeholder="Comment" required="">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationCustom04">Faulty Description</label>
+                                            <input type="text" class="form-control" name="Faultcomment" id="validationCustom04" placeholder="Faulty Description" required="">
 
                                         </div>
-                                    </div>
-
-                                    <div class="form-row">
-
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="validationCustom04">Workorder Type</label>
                                             <select class="custom-select" name="WorkorderType" required>
                                                 <option selected="selected">Select Type</option>
@@ -86,7 +69,12 @@
                                             </select>
 
                                         </div>
-                                        <div class="col-md-3 mb-3">s
+                                    </div>
+
+                                    <div class="form-row">
+
+                                       
+                                        <div class="col-md-4 mb-3">
                                             <label for="validationCustom04">Date Recieved</label>
                                             <input type="date" class="form-control" name="Daterecieved" id="validationCustom04" placeholder="Comment" required="">
 

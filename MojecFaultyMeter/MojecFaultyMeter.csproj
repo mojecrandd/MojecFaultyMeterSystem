@@ -135,11 +135,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MeterType.cs" />
     <Compile Include="Models\Discos.cs" />
     <Compile Include="Models\DiscoUser.cs" />
     <Compile Include="Models\DispatchOrders.cs" />
     <Compile Include="Models\FactoryUsers.cs" />
+    <Compile Include="Models\Fault.cs" />
     <Compile Include="Models\FaultyMeters.cs" />
+    <Compile Include="Models\MeterModel.cs" />
     <Compile Include="Models\MojecStoreUser.cs" />
     <Compile Include="Models\ProcurementUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -349,6 +352,15 @@
     <Content Include="Views\Disco\AddFaultyMetersOnsite.cshtml" />
     <Content Include="Views\Disco\ReturnUploadWorkorder.cshtml" />
     <Content Include="Views\Disco\OnsiteUploadworkorder.cshtml" />
+    <Content Include="Views\Admin\AddFault.cshtml" />
+    <Content Include="Views\Admin\Fault.cshtml" />
+    <Content Include="Views\Admin\GetFault.cshtml" />
+    <Content Include="Views\Admin\Model.cshtml" />
+    <Content Include="Views\Admin\GetModel.cshtml" />
+    <Content Include="Views\Admin\AddModel.cshtml" />
+    <Content Include="Views\Admin\AddMeterType.cshtml" />
+    <Content Include="Views\Admin\MeterType.cshtml" />
+    <Content Include="Views\Admin\GetMeterType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
