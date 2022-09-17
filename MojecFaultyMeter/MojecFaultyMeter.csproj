@@ -130,6 +130,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\DiscoController.cs" />
     <Compile Include="Controllers\FactoryController.cs" />
+    <Compile Include="Controllers\FactoryManagerController.cs" />
     <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
@@ -361,6 +362,10 @@
     <Content Include="Views\Admin\AddMeterType.cshtml" />
     <Content Include="Views\Admin\MeterType.cshtml" />
     <Content Include="Views\Admin\GetMeterType.cshtml" />
+    <Content Include="Views\Shared\_FactoryManager.cshtml" />
+    <Content Include="Views\FactoryManager\Dashboard.cshtml" />
+    <Content Include="Views\FactoryManager\GetReplacementApproval.cshtml" />
+    <Content Include="Views\Authentication\FactoryManagerLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

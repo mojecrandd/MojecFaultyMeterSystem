@@ -273,5 +273,55 @@ namespace MojecFaultyMeter.Controllers
             con.Close();
             return View();
         }     
+
+        public ActionResult FactoryManagerLogin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FactoryManagerLogin(string Username, string Password, int? UserID)
+        {
+            string username = "";
+            bool found = false;
+            SqlDataReader dr;
+            connectionString();
+            con.Open();
+            com.Connection = con;
+            com.CommandText = "GetFactoryManagerUserByUsername";
+            com.CommandType = System.Data.CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Username", Username);
+            com.Parameters.AddWithValue("@Password", Password);
+            dr = com.ExecuteReader();
+            if (dr.Read())
+            {
+                found = true;
+                UserID = Convert.ToInt32(dr["UserID"].ToString());
+                username = dr["FM_FullName"].ToString();
+                FormsAuthentication.SetAuthCookie(Username, true);
+                Session["FM_FullName"] = Username.ToString();
+            }
+            else
+            {
+                found = false;
+            }
+            dr.Close();
+            con.Close();
+            if (found == true)
+            {
+                FormsAuthentication.SetAuthCookie(Convert.ToInt32(UserID).ToString(), true);
+                FormsAuthentication.SetAuthCookie(Username, true);
+                Session["Username"] = Username.ToString();
+                Session["UserID"] = UserID.ToString();
+                return RedirectToAction("Dashboard", "FactoryManager");
+
+            }
+            else
+            {
+                ViewBag.Error = "Username and Password are wrong!";
+            }
+            con.Close();
+            return View();
+        }
     }
 }

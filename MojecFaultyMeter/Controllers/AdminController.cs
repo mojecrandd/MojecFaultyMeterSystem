@@ -234,6 +234,10 @@ namespace MojecFaultyMeter.Controllers
             TempData["save"] = "User has been saved successfully";
             return RedirectToAction("RegisterUser");
         }
+
+     
+
+
         public ActionResult DiscoUsers()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
