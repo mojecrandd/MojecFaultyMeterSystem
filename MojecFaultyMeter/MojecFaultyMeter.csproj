@@ -136,6 +136,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Files.cs" />
     <Compile Include="Models\MeterType.cs" />
     <Compile Include="Models\Discos.cs" />
     <Compile Include="Models\DiscoUser.cs" />
@@ -366,6 +367,7 @@
     <Content Include="Views\FactoryManager\Dashboard.cshtml" />
     <Content Include="Views\FactoryManager\GetReplacementApproval.cshtml" />
     <Content Include="Views\Authentication\FactoryManagerLogin.cshtml" />
+    <Content Include="Views\Admin\Template.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

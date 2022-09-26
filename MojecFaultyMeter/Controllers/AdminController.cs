@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,6 +26,7 @@ namespace MojecFaultyMeter.Controllers
         List<MeterModel> _model = new List<MeterModel>();
         List<MeterType> _metertype = new List<MeterType>();
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MojecFaultyMeter"].ConnectionString);
+        SqlCommand com = new SqlCommand();
         // GET: Admin
         public ActionResult Index()
         {
@@ -1269,6 +1271,77 @@ namespace MojecFaultyMeter.Controllers
             }
             TempData["save"] = "Meter Type has been deleted successfully";
             return RedirectToAction("MeterType");
+        }
+
+
+        public ActionResult Template()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Template(HttpPostedFileBase postedFiles)
+        {          
+                SqlDataReader dr;
+                con.Open();
+                com.Connection = con;
+                com.CommandText = "Select * from FaultyMeterTemplate where Id = 1";
+                dr = com.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    string fileName = Path.GetFileName(postedFiles.FileName);
+                    string type = postedFiles.ContentType;
+                    byte[] bytes = null;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        postedFiles.InputStream.CopyTo(ms);
+                        bytes = ms.ToArray();
+                    }
+                    using (SqlConnection con = new SqlConnection((StoreConnection.GetConnection())))
+                    {
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            cmd.CommandText = "Update FaultyMeterTemplate set Name = @Name, ContentType = @ContentType, Data = @Data where Id = 1";
+                            cmd.Parameters.AddWithValue("@Name", fileName);
+                            cmd.Parameters.AddWithValue("@ContentType", type);
+                            cmd.Parameters.AddWithValue("@Data", bytes);
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    string fileName = Path.GetFileName(postedFiles.FileName);
+                    string type = postedFiles.ContentType;
+                    byte[] bytes = null;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        postedFiles.InputStream.CopyTo(ms);
+                        bytes = ms.ToArray();
+                    }
+                    using (SqlConnection con = new SqlConnection((StoreConnection.GetConnection())))
+                    {
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            cmd.CommandText = "INSERT INTO FaultyMeterTemplate(Name, ContentType, Data) VALUES (@Name, @ContentType, @Data)";
+                            cmd.Parameters.AddWithValue("@Name", fileName);
+                            cmd.Parameters.AddWithValue("@ContentType", type);
+                            cmd.Parameters.AddWithValue("@Data", bytes);
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+
+            TempData["save"] = "Template Uploaded Successfully";
+            return RedirectToAction("Template");
+            
         }
 
 

@@ -962,7 +962,48 @@ namespace MojecFaultyMeter.Controllers
             return Redirect("http://mojecdataapi.azurewebsites.net/api/ReplacedDiscoFile/Download?date1=" + date1 + "&&date2=" + date2+"&&id="+DiscoID);
         }
 
+  
+        public FileResult DownloadFile(int? fileId)
+        {
+            fileId = 1;
+            Files model = PopulateInstallationFiles().Find(x => x.Id == Convert.ToInt32(fileId));
+            string fileName = model.Name;
+            string contentType = model.ContentType;
+            byte[] bytes = model.Data;
+            return File(bytes, contentType, fileName);
+        }
 
-        
+        private static List<Files> PopulateInstallationFiles()
+        {
+            List<Files> files = new List<Files>();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("Select * from FaultyMeterTemplate", con))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            files.Add(new Files
+                            {
+                                Id = Convert.ToInt32(sdr["Id"]),
+                                Name = sdr["Name"].ToString(),
+                                ContentType = sdr["ContentType"].ToString(),
+                                Data = (byte[])sdr["Data"]
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+
+            return files;
+        }
+
+
+
     }
 }     
