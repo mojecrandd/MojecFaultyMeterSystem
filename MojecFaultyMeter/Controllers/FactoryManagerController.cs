@@ -98,7 +98,6 @@ namespace MojecFaultyMeter.Controllers
             return View(_faulty);
         }
 
-
         public async Task<ActionResult> AcceptMeter(int Id)
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
