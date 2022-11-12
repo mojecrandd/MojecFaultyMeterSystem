@@ -408,9 +408,8 @@ namespace MojecFaultyMeter.Controllers
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
-                SqlCommand cmd = new SqlCommand("GetawaitingReplacementcases", con);
+                SqlCommand cmd = new SqlCommand("GetAwaitingStoreReplacementcases", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -433,6 +432,67 @@ namespace MojecFaultyMeter.Controllers
                 rdr.Close();
             }
             return View(_faulty);
+        }
+
+        public ActionResult Replacemeter(int Id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            FaultyMeters faulty = new FaultyMeters();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetMeterDetails", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@MeterID", Id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    faulty.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+
+                }
+            }
+            return View(faulty);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Replacemeter(FaultyMeters faulty)
+        {
+            string USERID = (string)Session["UserID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("UpdateSp_rplceStoreStatus", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MeterID", faulty.MeterID);
+                cmd.Parameters.AddWithValue("@ReplacedBy", USERID);
+                cmd.Parameters.AddWithValue("@MeterReplacementNo", faulty.MeterReplacementNo);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            string Email = "";
+            using (SqlCommand cmd4 = new SqlCommand("select * from ProcurementUsers", con))
+            {
+                con.Open();
+                SqlDataReader dr = cmd4.ExecuteReader();
+                while (dr.Read())
+                {
+                    Email = dr["Email"].ToString();
+                    MailjetClient client = new MailjetClient("a8d83ddfc6afa0d27997cfff564176db", "bd5afa8d85e11465d2f1319c7038286f");
+                    MailjetRequest request = new MailjetRequest
+                    {
+                        Resource = Send.Resource,
+                    }
+                    .Property(Send.FromEmail, "faultymeters@mojec.com")
+                    .Property(Send.FromName, "Mojec")
+                    .Property(Send.To, Email)
+                    .Property(Send.Subject, "Mojec Faulty Meter")
+                    .Property(Send.TextPart, $"A new Faulty Meter has been replace [New Meter No {faulty.MeterReplacementNo} . Please Review");
+                    MailjetResponse response = await client.PostAsync(request);
+                }
+            }
+            TempData["save"] = "Meter Replaced";
+            return RedirectToAction("AwaitingReplacement");
         }
         public ActionResult Dispatchedcases()
         {
@@ -513,7 +573,6 @@ namespace MojecFaultyMeter.Controllers
         public async Task<ActionResult> AcceptMetercase(int Id)
         {
             string storeID = (string)Session["UserID"];
-
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
                 SqlCommand cmd = new SqlCommand("UpdateSp_AccptdStoreStatus", con);

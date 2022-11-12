@@ -419,51 +419,22 @@ namespace MojecFaultyMeter.Controllers
             return View(_faulty);
         }
 
-        public ActionResult Replacemeter(int Id)
+        public async Task<ActionResult> ApproveMeterReplacement(int Id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
-            {
-                return RedirectToAction("UsersLogin", "Authentication");
-            }
-            FaultyMeters faulty = new FaultyMeters();
+            string storeID = (string)Session["UserID"];
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
-                SqlCommand cmd = new SqlCommand("GetMeterDetails", con);
+                SqlCommand cmd = new SqlCommand("UpdateForStoreReplacemetApproval", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                con.Open();
                 cmd.Parameters.AddWithValue("@MeterID", Id);
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    faulty.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
-
-                }
-            }
-            
-
-            return View(faulty);
-        }
-        [HttpPost]
-        public async Task<ActionResult> Replacemeter(FaultyMeters faulty)
-        {
-            string USERID = (string)Session["UserID"];
-            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
-            {
-                SqlCommand cmd = new SqlCommand("UpdateSp_rplceStoreStatus", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MeterID", faulty.MeterID);
-                cmd.Parameters.AddWithValue("@ReplacedBy", USERID);
-                cmd.Parameters.AddWithValue("@MeterReplacementNo", faulty.MeterReplacementNo);
                 con.Open();
                 cmd.ExecuteNonQuery();
             }
-
             string Email = "";
             using (SqlCommand cmd4 = new SqlCommand("select * from MojecStoreUser", con))
             {
                 con.Open();
                 SqlDataReader dr = cmd4.ExecuteReader();
-
                 while (dr.Read())
                 {
                     Email = dr["Email"].ToString();
@@ -476,15 +447,14 @@ namespace MojecFaultyMeter.Controllers
                     .Property(Send.FromName, "Mojec")
                     .Property(Send.To, Email)
                     .Property(Send.Subject, "Mojec Faulty Meter")
-                    .Property(Send.TextPart, "A new Faulty Meter Requires Replacement. Please Review");
+                    .Property(Send.TextPart, "A new Faulty Meter has Just been approved for replacement. Please Review");
                     MailjetResponse response = await client.PostAsync(request);
                 }
             }
-
-
-            TempData["save"] = "Meter Replaced";
+            TempData["save"] = "Meter replacement approved successfully";
             return RedirectToAction("AwaitingReplacement");
-        }
+        }      
+
         private static List<Discos> PopulateDisco()
         {
             List<Discos> discos = new List<Discos>();

@@ -368,6 +368,7 @@
     <Content Include="Views\FactoryManager\GetReplacementApproval.cshtml" />
     <Content Include="Views\Authentication\FactoryManagerLogin.cshtml" />
     <Content Include="Views\Admin\Template.cshtml" />
+    <Content Include="Views\Store\Replacemeter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
