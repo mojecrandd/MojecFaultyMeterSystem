@@ -511,7 +511,7 @@ namespace MojecFaultyMeter.Controllers
                 cmd.ExecuteNonQuery();
             }
             string Email = "";
-            using (SqlCommand cmd4 = new SqlCommand("select * from ProcurementUsers", con))
+            using (SqlCommand cmd4 = new SqlCommand("select * from FactoryManagerUser", con))
             {
                 con.Open();
                 SqlDataReader dr = cmd4.ExecuteReader();

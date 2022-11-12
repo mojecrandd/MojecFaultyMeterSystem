@@ -1,4 +1,6 @@
-﻿using MojecFaultyMeter.Config;
+﻿using Mailjet.Client;
+using Mailjet.Client.Resources;
+using MojecFaultyMeter.Config;
 using MojecFaultyMeter.Models;
 using System;
 using System.Collections.Generic;
@@ -106,6 +108,29 @@ namespace MojecFaultyMeter.Controllers
                 cmd.Parameters.AddWithValue("@MeterID", Id);
                 con.Open();
                 cmd.ExecuteNonQuery();
+
+                string Email = "";
+                using (SqlCommand cmd4 = new SqlCommand("select * from ProcurementUsers", con))
+                {
+                    con.Open();
+                    SqlDataReader dr = cmd4.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        Email = dr["Email"].ToString();
+                        MailjetClient client = new MailjetClient("a8d83ddfc6afa0d27997cfff564176db", "bd5afa8d85e11465d2f1319c7038286f");
+                        MailjetRequest request = new MailjetRequest
+                        {
+                            Resource = Send.Resource,
+                        }
+                        .Property(Send.FromEmail, "faultymeters@mojec.com")
+                        .Property(Send.FromName, "Mojec")
+                        .Property(Send.To, Email)
+                        .Property(Send.Subject, "Mojec Faulty Meter")
+                        .Property(Send.TextPart, "A new Faulty Meter Requires Replacement. Please Review");
+                        MailjetResponse response = await client.PostAsync(request);
+                    }
+                }
             }
 
             TempData["save"] = "Meter Accepted successfully";
