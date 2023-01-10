@@ -111,7 +111,7 @@ namespace MojecFaultyMeter.Controllers
                 string Email = "";
                 using (SqlCommand cmd4 = new SqlCommand("select * from ProcurementUsers", con))
                 {
-                    con.Open();
+                    
                     SqlDataReader dr = cmd4.ExecuteReader();
 
                     while (dr.Read())
