@@ -202,7 +202,6 @@ namespace MojecFaultyMeter.Controllers
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
                     fault.MeterType = rdr["WorkOrderID"].ToString();
-
                     _faulty.Add(fault);
                 }
                 rdr.Close();
@@ -546,7 +545,7 @@ namespace MojecFaultyMeter.Controllers
 
                 con.Close();
             }
-            TempData["save"] = "Workorder has be created successfully";
+            TempData["save"] = "Workorder has been created successfully";
             return RedirectToAction("AddFaultyMeters");
         }
         public ActionResult AwaitingDispatch()
