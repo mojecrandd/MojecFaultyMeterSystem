@@ -10,7 +10,7 @@
         <div class="col-sm-6 p-md-0">
             <div class="welcome-text">
                 <h4>Hi, welcome back!</h4>
-                <span class="ml-1">Datatable</span>
+                <p class="mb-0">Manage your faulty meter</p>
             </div>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -36,14 +36,14 @@
                                 <a href="@Url.Action("RegisterUser", "Admin")" class="btn btn-outline-primary">
                                     <i class="fas fa-plus-square"></i>
                                     <span>
-                                        <strong>Add Disco</strong>
+                                        <strong>Add Disco User</strong>
                                     </span>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="example2" class="display" style="width:100%">
+                        <table id="example" class="display" style="min-width: 845px">
                             <thead>
                                 <tr>
                                     <th>
@@ -57,6 +57,9 @@
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.DiscoAb)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
                                     </th>
                                     <th>
 
@@ -78,6 +81,9 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.DiscoAb)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
                                         </td>
                                         <td class="btn-group">
                                             @Html.ActionLink("Activate", "ActivateDiscoUser", new { id = item.UserID }, new { @class = "btn btn-primary" })

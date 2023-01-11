@@ -16,5 +16,7 @@ namespace MojecFaultyMeter.Models
 
         public string DiscoAb { get; set; }
         public string Email { get; set; }
+
+        public string Status { get; set; }
     }
 }

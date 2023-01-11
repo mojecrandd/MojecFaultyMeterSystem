@@ -261,6 +261,7 @@ namespace MojecFaultyMeter.Controllers
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["UserName"].ToString();
                     user.DiscoAb = rdr["Discosn"].ToString();
+                    user.Status = rdr["Active"].ToString();
                     _discoUsers.Add(user);
                 }
                 rdr.Close();
