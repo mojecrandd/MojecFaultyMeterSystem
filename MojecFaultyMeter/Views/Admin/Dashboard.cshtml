@@ -24,13 +24,18 @@
         <div class="col-lg-3 col-sm-6">
             <div class="card">
                 <div class="stat-widget-one card-body">
-                    <div class="stat-icon d-inline-block">
-                        <i class="ti-bar-chart text-success border-success"></i>
-                    </div>
-                    <div class="stat-content d-inline-block">
-                        <div class="stat-text">Complete</div>
-                        <div class="stat-digit">@ViewBag.Completed</div>
-                    </div>
+                   
+                        <div class="stat-icon d-inline-block">
+                              <a href="@Url.Action("Completecases", "Admin")" class="btn btn-outline-primary">
+                            <i class="ti-bar-chart text-success border-success"></i>
+                                  </a>
+                        </div>
+                    
+                       
+                        <div class="stat-content d-inline-block">
+                            <div class="stat-text">Complete</div>
+                            <div class="stat-digit">@ViewBag.Completed</div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -38,7 +43,9 @@
             <div class="card">
                 <div class="stat-widget-one card-body">
                     <div class="stat-icon d-inline-block">
-                        <i class="ti-bar-chart text-primary border-primary"></i>
+                        <a href="@Url.Action("PendingMeters", "Admin")" class="btn btn-outline-primary">
+                            <i class="ti-bar-chart text-primary border-primary"></i>
+                            </a>
                     </div>
                     <div class="stat-content d-inline-block">
                         <div class="stat-text">Pending</div>
@@ -51,7 +58,9 @@
             <div class="card">
                 <div class="stat-widget-one card-body">
                     <div class="stat-icon d-inline-block">
-                        <i class="ti-bar-chart text-pink border-pink"></i>
+                        <a href="@Url.Action("Acceptedcases", "Admin")" class="btn btn-outline-primary">
+                            <i class="ti-bar-chart text-pink border-pink"></i>
+                            </a>
                     </div>
                     <div class="stat-content d-inline-block">
                         <div class="stat-text">Recieved</div>

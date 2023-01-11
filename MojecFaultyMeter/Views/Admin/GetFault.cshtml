@@ -27,15 +27,13 @@
                 <div class="card-body">
                     <div class="horizontal-form">
                         <div class="card-title">
-                            <h4>Create Fault</h4>
+                            <h4>Update Fault</h4>
                         </div>
                             @using (Html.BeginForm())
                             {
                             @Html.AntiForgeryToken()
 
                             <div class="form-horizontal">
-                                <h4>Fault</h4>
-                                <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 @Html.HiddenFor(model => model.FaultID)
 
