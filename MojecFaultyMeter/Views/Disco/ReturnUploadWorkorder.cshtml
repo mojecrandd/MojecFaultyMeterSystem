@@ -1,73 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "ReturnUploadWorkorder";
-    Layout = "~/Views/Shared/DiscoLayout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="main-content">
-    <div class="main-content-inner">
-        <div class="row">
-            <div class="col-lg-6 col-ml-12">
-                <div class="row">
-                    <!-- Textual inputs start -->
-                    <div class="col-12 mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title">Upload File</h4>
-                                <form class="needs-validation" novalidate="" action="ReturnUploadWorkorder" method="post" enctype="multipart/form-data">
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationCustom01">File</label>
-                                            <input type="file" class="form-control" name="file" required="">
-                                        </div>
-                                    </div>
-                                   
-                                    <button class="btn btn-outline-primary" type="submit">Upload</button>
-                                    <a class="btn btn-outline-primary" href="@Url.Action("AddFaultyMeters", "Disco")">Back</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+<h2>ReturnUploadWorkorder</h2>
 
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-@section Scripts{
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script type="text/javascript">
-  $(function(){
-     var save = '@TempData["save"]'
-if(save!=null)
-{
- alertify.success(save);
-}
-var edit = '@TempData["edit"]'
-if(edit!='')
-{
-    alertify.success(edit);
-}
- var del = '@TempData["delete"]'
-if(del!='')
-{
-    alertify.error(del);
-}
- })
-
-     function Delete(id) {
-            alertify.confirm('Meter Maintainance System', 'Are You Sure to Delete this record?', function () {
-                window.location.href = '@Url.Action("DeleteRegionStaff","Admin")/'+id;
-            },null);
-        }
-
-        function Deactivate(id) {
-            alertify.confirm('Meter Maintainance System', 'Are You Sure to Deactivate this staff?', function () {
-                window.location.href = '@Url.Action("DeactivateRegionStaff","Admin")/'+id;
-            },null);
-        }
-    </script>
-
-}
