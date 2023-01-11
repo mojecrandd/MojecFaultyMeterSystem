@@ -1,8 +1,85 @@
-﻿
+﻿@model IEnumerable<MojecFaultyMeter.Models.Fault>
 @{
     ViewBag.Title = "Fault";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Fault</h2>
+<div class="container-fluid">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Hi, welcome back!</h4>
+                <p class="mb-0">Manage your faulty meter</p>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Dashboard</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Disco Users</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 pl-6">
+                            <div class="form-group">
+                                <a href="@Url.Action("AddFault", "Admin")" class="btn btn-outline-primary">
+                                    <i class="fas fa-plus-square"></i>
+                                    <span>
+                                        <strong>Add Fault</strong>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="example" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Faultname)
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Faultname)
+                                        </td>
+                                        <td class="btn-group">
+                                            @Html.ActionLink("Edit", "GetFault", new { id = item.FaultID }, new { @class = "btn btn-primary" })
+                                            @Html.ActionLink("Delete", "DeleteFault", new { id = item.FaultID}, new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Faultname)
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
