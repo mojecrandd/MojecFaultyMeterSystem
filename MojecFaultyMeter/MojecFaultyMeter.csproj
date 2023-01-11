@@ -4368,6 +4368,7 @@
     <Content Include="TemplateFiles\vendor\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="TemplateFiles\vendor\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Admin\CreateDiscoUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
