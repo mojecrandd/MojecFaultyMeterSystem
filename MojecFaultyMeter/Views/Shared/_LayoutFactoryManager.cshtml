@@ -113,7 +113,7 @@
                             <i class="icon icon-app-store"></i><span class="nav-text">Dashboard</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Dashboard", "Factory")'>Dashboard</a></li>
+                            <li><a href='@Url.Action("Dashboard", "FactoryManager")'>Dashboard</a></li>
                         </ul>
                     </li>
                     <li>
@@ -121,16 +121,7 @@
                             <i class="icon icon-chart-bar-33"></i><span class="nav-text">Meter Cases</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Completecases", "Factory")'>Completed</a></li>
-                            <li><a href='@Url.Action("Solvedcases", "Factory")'>Solved</a></li>
-                            <li><a href='@Url.Action("PendingMeters", "Factory")'>Pending</a></li>
-                            <li><a href='@Url.Action("Replacescases", "Factory")'>Replaced</a></li>
-                            <li><a href='@Url.Action("Reparingcases", "Factory")'>Repairing</a></li>
-                            <li><a href='@Url.Action("Acceptedcases", "Factory")'>Accepted</a></li>
-                            <li><a href='@Url.Action("Rejectcases", "Factory")'>Rejected</a></li>
-                            <li><a href='@Url.Action("AwaitingDispatch", "Factory")'>Awaiting Dispatch</a></li>
-                            <li><a href='@Url.Action("AwaitingReplacement", "Factory")'>Awaiting Replacement</a></li>
-                            <li><a href='@Url.Action("Dispatchedcases", "Factory")'>Dispatched</a></li>
+                            <li><a href='@Url.Action("GetReplacementApproval", "FactoryManager")'>Replacement Cases</a></li>
                         </ul>
                     </li>
                 </ul>
