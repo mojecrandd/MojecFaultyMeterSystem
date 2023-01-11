@@ -289,6 +289,7 @@ namespace MojecFaultyMeter.Controllers
                     user.Fullname = rdr["M_FullName"].ToString();
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["UserName"].ToString();
+                    user.Status = rdr["Active"].ToString();
                     _mojecStores.Add(user);
                 }
                 rdr.Close();
@@ -316,6 +317,7 @@ namespace MojecFaultyMeter.Controllers
                     user.Fullname = rdr["F_FullName"].ToString();
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["UserName"].ToString();
+                    user.Status = rdr["Active"].ToString();
                     _factoryusers.Add(user);
                 }
                 rdr.Close();
@@ -343,6 +345,7 @@ namespace MojecFaultyMeter.Controllers
                     user.Fullname = rdr["FullName"].ToString();
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["UserName"].ToString();
+                    user.Status = rdr["Active"].ToString();
                     
                     _procurementUsers.Add(user);
                 }
@@ -793,9 +796,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("ActivateDiscoUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiscoUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Disco user has been activated successfully";
             return RedirectToAction("DiscoUsers");
@@ -804,9 +809,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("DeactivateDiscoUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiscoUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Disco user has been Deactivated successfully";
             return RedirectToAction("DiscoUsers");
@@ -815,9 +822,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("ActivateFactoryUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FactoryUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Factory user has been activated successfully";
             return RedirectToAction("FactoryUsers");
@@ -826,9 +835,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("DeactivateFactoryUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FactoryUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Factory user has been Deactivated successfully";
             return RedirectToAction("FactoryUsers");
@@ -837,9 +848,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("ActivateMojecStoreUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@MojecStoreUserID ", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Mojec store user has been activated successfully";
             return RedirectToAction("MojecStoreUsers");
@@ -848,9 +861,12 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("DeactivateMojecStoreUser", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@MojecStoreUserID ", Id);
+                cmd.ExecuteNonQuery();
+
             }
             TempData["save"] = "Mojec store user has been Deactivated successfully";
             return RedirectToAction("MojecStoreUsers");
@@ -859,9 +875,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
+                con.Open();
                 SqlCommand cmd = new SqlCommand("ActivateProcurementUsers", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ProcurementUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Procurement user has been activated successfully";
             return RedirectToAction("ProcurementUsers");
@@ -870,9 +888,11 @@ namespace MojecFaultyMeter.Controllers
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
-                SqlCommand cmd = new SqlCommand("DeactivateProcurementUserss", con);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("DeactivateProcurementUsers", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ProcurementUserID", Id);
+                cmd.ExecuteNonQuery();
             }
             TempData["save"] = "Procurement user has been Deactivated successfully";
             return RedirectToAction("ProcurementUsers");
