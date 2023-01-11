@@ -137,6 +137,12 @@ namespace MojecFaultyMeter.Controllers
             return RedirectToAction("Discos");
 
         }  
+
+        public ActionResult CreateProcurementUser()
+        {
+            return View();
+        }
+
         public ActionResult CreateProcurementUser(ProcurementUsers user)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -168,6 +174,10 @@ namespace MojecFaultyMeter.Controllers
             ViewBag.Disco = PopulateDisco();
             return View();
         }
+        public ActionResult CreateDiscoUser()
+        {
+            return View();
+        }
         public ActionResult CreateDiscoUsers(DiscoUser user)
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -191,6 +201,10 @@ namespace MojecFaultyMeter.Controllers
             TempData["save"] = "User has been saved successfully";
             return RedirectToAction("RegisterUser");
         }
+        public ActionResult CreateFactoryUser()
+        {
+            return View();
+        }
         public ActionResult CreateFactoryUsers(FactoryUsers user)
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
@@ -212,6 +226,10 @@ namespace MojecFaultyMeter.Controllers
             }
             TempData["save"] = "User has been saved successfully";
             return RedirectToAction("RegisterUser");
+        }
+        public ActionResult CreateMojecStoreUser()
+        {
+            return View();
         }
         public ActionResult CreateMojecStoreUser(MojecStoreUser user)
         {
