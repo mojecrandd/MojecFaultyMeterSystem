@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Mojec FMMS </title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/TemplateFiles/images/favicon.png">
+    <link href="~/TemplateFiles/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="~/TemplateFiles/vendor/chartist/css/chartist.min.css" rel="stylesheet">
+    <link href="~/TemplateFiles/css/style.css" rel="stylesheet">
+
+    <link href="~/TemplateFiles/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+    <!--*********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="index.html" class="center">
+                <br />
+                <center>
+                    <img src="https://i.ibb.co/zQTDt08/mojec-logo.png" width="60" class="center" alt="">
+                </center>
+            </a>
+
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                            <div class="search_bar dropdown">
+                                <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+                                <div class="dropdown-menu p-0 m-0">
+                                    <form>
+                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="navbar-nav header-right">
+                            <li class="nav-item dropdown header-profile">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                    <i class="mdi mdi-account"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href='@Url.Action("Login", "Authentication")' class="dropdown-item">
+                                        <i class="icon-key"></i>
+                                        <span class="ml-2">Logout </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="quixnav">
+            <div class="quixnav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="nav-label first">Menu</li>
+                    <!-- <li><a href="index.html"><i class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a>
+                    </li> -->
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon icon-app-store"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href='@Url.Action("Dashboard", "Factory")'>Dashboard</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon icon-chart-bar-33"></i><span class="nav-text">Meter Cases</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href='@Url.Action("Completecases", "Factory")'>Completed</a></li>
+                            <li><a href='@Url.Action("Solvedcases", "Factory")'>Solved</a></li>
+                            <li><a href='@Url.Action("PendingMeters", "Factory")'>Pending</a></li>
+                            <li><a href='@Url.Action("Replacescases", "Factory")'>Replaced</a></li>
+                            <li><a href='@Url.Action("Reparingcases", "Factory")'>Repairing</a></li>
+                            <li><a href='@Url.Action("Acceptedcases", "Factory")'>Accepted</a></li>
+                            <li><a href='@Url.Action("Rejectcases", "Factory")'>Rejected</a></li>
+                            <li><a href='@Url.Action("AwaitingDispatch", "Factory")'>Awaiting Dispatch</a></li>
+                            <li><a href='@Url.Action("AwaitingReplacement", "Factory")'>Awaiting Replacement</a></li>
+                            <li><a href='@Url.Action("Dispatchedcases", "Factory")'>Dispatched</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            @RenderBody()
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <!--**********************************
+            Footer end
+        ***********************************-->
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="~/TemplateFiles/vendor/global/global.min.js"></script>
+    <script src="~/TemplateFiles/js/quixnav-init.js"></script>
+    <script src="~/TemplateFiles/js/custom.min.js"></script>
+
+    <script src="~/TemplateFiles/vendor/chartist/js/chartist.min.js"></script>
+
+    <script src="~/TemplateFiles/vendor/moment/moment.min.js"></script>
+    <script src="~/TemplateFiles/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
+
+
+    <script src="~/TemplateFiles/js/dashboard/dashboard-2.js"></script>
+
+    <!-- Datatable -->
+    <script src="~/TemplateFiles/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/TemplateFiles/js/plugins-init/datatables.init.js"></script>
+</body>
+
+</html>
