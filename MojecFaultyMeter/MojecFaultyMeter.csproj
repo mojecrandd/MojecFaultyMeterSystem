@@ -4373,6 +4373,7 @@
     <Content Include="Views\Admin\CreateFactoryUser.cshtml" />
     <Content Include="Views\Admin\CreateMojecStoreUser.cshtml" />
     <Content Include="Views\Admin\CreateProcurementUser.cshtml" />
+    <Content Include="Views\Admin\DeleteFault.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
