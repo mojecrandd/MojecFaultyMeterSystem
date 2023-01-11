@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<MojecFaultyMeter.Models.Discos>
 @{
     ViewBag.Title = "Discos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -6,3 +6,83 @@
 
 
 
+
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Hi, welcome back!</h4>
+                    <span class="ml-1">Datatable</span>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Dashboard</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Disco</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 pl-6">
+                                <div class="form-group">
+                                    <a href="@Url.Action("CreateDisco", "Admin")" class="btn btn-outline-primary">
+                                        <i class="fas fa-plus-square"></i>
+                                        <span>
+                                            <strong>Add Disco</strong>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="example2" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscoName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscoAB)
+                                        </th>
+                                    </tr>
+                                </thead>                             
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DiscoName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DiscoAB)
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscoName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscoAB)
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
