@@ -63,7 +63,6 @@ namespace MojecFaultyMeter.Controllers
 
 
         }
-        
         public ActionResult CreateDicos()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -109,10 +108,10 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult CreateDisco()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
-            {
-                return RedirectToAction("UsersLogin", "Authentication");
-            }
+            //if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            //{
+            //    return RedirectToAction("UsersLogin", "Authentication");
+            //}
             return View();
         }
         [HttpPost]
