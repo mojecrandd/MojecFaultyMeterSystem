@@ -1,49 +1,38 @@
 ﻿@model MojecFaultyMeter.Models.Fault
+
 @{
     ViewBag.Title = "GetFault";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container-fluid">
-    <div class="row page-titles mx-0">
-        <div class="col-sm-6 p-md-0">
-            <div class="welcome-text">
-                <h4>Hi, welcome back!</h4>
-                <p class="mb-0">Manage your faulty meter</p>
-            </div>
-        </div>
-        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Dashboard</a></li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="horizontal-form">
-                        <div class="card-title">
-                            <h4>Update Fault</h4>
-                        </div>
-                        <form class="form-horizontal" action="GetFault" method="post">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Fault</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Fault" name="Faultname">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-success">Save</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<h2>GetFault</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Fault</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.FaultID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Faultname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Faultname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Faultname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
