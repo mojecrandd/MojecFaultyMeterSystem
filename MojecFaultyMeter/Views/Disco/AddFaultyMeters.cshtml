@@ -1,8 +1,99 @@
-﻿
+﻿@model MojecFaultyMeter.Models.FaultyMeters
 @{
     ViewBag.Title = "AddFaultyMeters";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutDisco.cshtml";
 }
 
-<h2>AddFaultyMeters</h2>
+<div class="container-fluid">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Hi, welcome back!</h4>
+                <p class="mb-0">Manage your faulty meter</p>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Dashboard</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="horizontal-form">
+                        <div class="card-title">
+                            <h4>Create Disco User</h4>
+                        </div>
+                        <form class="form-horizontal" action="AddFaultyMeters" method="post">
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Meter</label>
+                                    <input type="text" class="form-control" placeholder="MeterNo" name="MeterNo" required>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Customer Name</label>
+                                    <input type="text" class="form-control" placeholder="Customer Name" name="CustomerName" required>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Account No</label>
+                                    <input type="text" class="form-control" placeholder="Account No" name="AccountNo" required>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Tarrif</label>
+                                    <input type="text" class="form-control" placeholder="Tarrif" name="Tarrif" required="">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Meter Type</label>
+                                    @Html.DropDownListFor(model => model.MeterType, new SelectList(ViewBag.MeterType, "MetertypeName", "MetertypeName"), "--Select MeterType--", new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Meter Type</label>
+                                    @Html.DropDownListFor(model => model.Model, new SelectList(ViewBag.Model, "Modelname", "Modelname"), "--Select MeterType--", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Fault</label>
+                                    @Html.DropDownListFor(model => model.Fault, new SelectList(ViewBag.Fault, "Faultname", "Faultname"), "--Select Fault--", new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Fault Description</label>
+                                    <textarea type="text" class="form-control" placeholder="Faulty Description" name="Faultcomment" required=""></textarea>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Date Recieved</label>
+                                    <input type="date" class="form-control" name="Daterecieved" required="">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Workorder Type</label>
+                                    <select class="custom-select" name="WorkorderType">
+                                        <option selected="selected">Select Type</option>
+                                        <option>Return</option>
+                                        <option>Onsite</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+
+                            <button class="btn btn-outline-primary" type="submit">Add List</button>
+                            <a class="btn btn-outline-primary" href="@Url.Action("ConfirmList", "Disco")">Confirm List</a>
+                            <a class="btn btn-outline-primary" href="@Url.Action("ReturnUploadWorkorder", "Disco")">Batch Upload</a>
+                            <a class="btn btn-outline-primary" href="@Url.Action("DownloadFile", "Disco")">Download Template</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

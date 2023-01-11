@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -113,18 +114,16 @@
                             <i class="icon icon-app-store"></i><span class="nav-text">Dashboard</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Dashboard", "Admin")'>Dashboard</a></li>
+                            <li><a href='@Url.Action("Dashboard", "Disco")'>Dashboard</a></li>
                         </ul>
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fa-solid fa-user"></i><span class="nav-text">Users</span>
+                            <i class="fa-solid fa-user"></i><span class="nav-text"> Work Order</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href='@Url.Action("DiscoUsers", "Admin")'>Disco Users</a></li>
-                            <li><a href='@Url.Action("MojecStoreUsers", "Admin")'>Store Users</a></li>
-                            <li><a href='@Url.Action("ProcurementUsers", "Admin")'>Procurment Users</a></li>
-                            <li><a href='@Url.Action("FactoryUsers", "Admin")'>Factory Users</a></li>
+                            <li><a href='@Url.Action("ReturnWorkOrder", "Disco")'>Workorders</a></li>
+                            <li><a href='@Url.Action("AddFaultyMeters", "Disco")'>Create Work Order</a></li>
                         </ul>
                     </li>
                     <li>
@@ -132,45 +131,16 @@
                             <i class="icon icon-chart-bar-33"></i><span class="nav-text">Meter Cases</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Completecases", "Admin")'>Completed</a></li>
-                            <li><a href='@Url.Action("Solvedcases", "Admin")'>Solved</a></li>
-                            <li><a href='@Url.Action("PendingMeters", "Admin")'>Pending</a></li>
-                            <li><a href='@Url.Action("Replacescases", "Admin")'>Replaced</a></li>
-                            <li><a href='@Url.Action("Reparingcases", "Admin")'>Reparing</a></li>
-                            <li><a href='@Url.Action("Acceptedcases", "Admin")'>Accepted</a></li>
-                            <li><a href='@Url.Action("Rejectcases", "Admin")'>Rejected</a></li>
-                            <li><a href='@Url.Action("AwaitingDispatch", "Admin")'>Awaiting Dispatch</a></li>
-                            <li><a href='@Url.Action("AwaitingReplacement", "Admin")'>Awaiting Replacement</a></li>
-                            <li><a href='@Url.Action("Dispatchedcases", "Admin")'>Dispatched</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon icon-world-2"></i><span class="nav-text">Orders</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href='@Url.Action("ReturnWorkorder", "Admin")'>WorkOrders</a></li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon icon-plug"></i><span class="nav-text">Discos</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Discos", "Admin")'>Discos</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon icon-globe-2"></i><span class="nav-text">Configuration</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href='@Url.Action("Fault", "Admin")'>Fault</a></li>
-                            <li><a href='@Url.Action("MeterType", "Admin")'>Meter Type</a></li>
-                            <li><a href='@Url.Action("Model", "Admin")'>Meter Model</a></li>
-                            <li><a href='@Url.Action("Template", "Admin")'>Templates</a></li>
+                            <li><a href='@Url.Action("Completedcases", "Disco")'>Completed</a></li>
+                            <li><a href='@Url.Action("Solvedcases", "Disco")'>Solved</a></li>
+                            <li><a href='@Url.Action("Pendingcases", "Disco")'>Pending</a></li>
+                            <li><a href='@Url.Action("Replacescases", "Disco")'>Replaced</a></li>
+                            <li><a href='@Url.Action("Reparingcases", "Disco")'>Repairing</a></li>
+                            <li><a href='@Url.Action("Acceptedcases", "Disco")'>Accepted</a></li>
+                            <li><a href='@Url.Action("Rejectedcases", "Disco")'>Rejected</a></li>
+                            <li><a href='@Url.Action("AwaitingDispatch", "Disco")'>Awaiting Dispatch</a></li>
+                            <li><a href='@Url.Action("AwaitingReplacement", "Disco")'>Awaiting Replacement</a></li>
+                            <li><a href='@Url.Action("Dispatchedcases", "Disco")'>Dispatched</a></li>
                         </ul>
                     </li>
                 </ul>

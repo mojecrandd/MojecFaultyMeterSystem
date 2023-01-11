@@ -618,7 +618,6 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
-
         public ActionResult Dispatchedcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -658,8 +657,6 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
-
-
         [HttpGet]
         public ActionResult FaultyMeterDetails(int Id)
         {

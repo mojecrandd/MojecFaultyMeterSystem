@@ -1,8 +1,131 @@
-﻿
+﻿@model IEnumerable<MojecFaultyMeter.Models.FaultyMeters>
 @{
     ViewBag.Title = "AwaitingDispatch";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutDisco.cshtml";
 }
 
-<h2>AwaitingDispatch</h2>
+<div class="container-fluid">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Hi, welcome back!</h4>
+                <p class="mb-0">Manage your faulty meter</p>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Dashboard</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Awaiting Dispatch Cases</h4>
+                </div>
+                <div class="card-body">
+                    @*<div class="row">
+                            <div class="col-md-12 pl-6">
+                                <div class="form-group">
+                                    <a href="@Url.Action("CreateDisco", "Admin")" class="btn btn-outline-primary">
+                                        <i class="fas fa-plus-square"></i>
+                                        <span>
+                                            <strong>Add Disco</strong>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="table-responsive">
+                        <table id="example" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MeterNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkOrderID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AccountNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MeterType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ReturnDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DiscoUser)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MeterNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkOrderID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AccountNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MeterType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReturnDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DiscoUser)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MeterNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkOrderID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AccountNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MeterType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ReturnDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DiscoUser)
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

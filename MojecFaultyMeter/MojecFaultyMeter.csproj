@@ -4374,6 +4374,7 @@
     <Content Include="Views\Admin\CreateMojecStoreUser.cshtml" />
     <Content Include="Views\Admin\CreateProcurementUser.cshtml" />
     <Content Include="Views\Admin\DeleteFault.cshtml" />
+    <Content Include="Views\Shared\_LayoutDisco.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
