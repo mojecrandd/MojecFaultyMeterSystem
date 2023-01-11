@@ -6,7 +6,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -143,6 +142,7 @@ namespace MojecFaultyMeter.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult CreateProcurementUser(ProcurementUsers user)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -176,6 +176,7 @@ namespace MojecFaultyMeter.Controllers
         }
         public ActionResult CreateDiscoUser()
         {
+            ViewBag.Disco = PopulateDisco();
             return View();
         }
         public ActionResult CreateDiscoUsers(DiscoUser user)
@@ -231,6 +232,8 @@ namespace MojecFaultyMeter.Controllers
         {
             return View();
         }
+
+        [HttpPost]
         public ActionResult CreateMojecStoreUser(MojecStoreUser user)
         {
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
