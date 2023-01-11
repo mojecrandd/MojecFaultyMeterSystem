@@ -3861,7 +3861,7 @@
     <Content Include="Views\Disco\Acceptedcases.cshtml" />
     <Content Include="Views\Disco\Rejectedcases.cshtml" />
     <Content Include="Views\Authentication\MojecstoreLogin.cshtml" />
-    <Content Include="Views\Shared\_StoreLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutStore.cshtml" />
     <Content Include="Views\Store\Dashboard.cshtml" />
     <Content Include="Views\Store\Workorders.cshtml" />
     <Content Include="Views\Store\DispatchWorkOrder.cshtml" />
