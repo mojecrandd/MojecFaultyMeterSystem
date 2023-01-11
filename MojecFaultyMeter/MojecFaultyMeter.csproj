@@ -3890,7 +3890,7 @@
     <Content Include="Views\Factory\Rejectcases.cshtml" />
     <Content Include="Views\Factory\AwaitingDispatch.cshtml" />
     <Content Include="Views\Factory\AwaitingReplacement.cshtml" />
-    <Content Include="Views\Shared\_ProcurementLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutProcurement.cshtml" />
     <Content Include="Views\Authentication\ProcurementLogin.cshtml" />
     <Content Include="Views\Procurement\Dashboard.cshtml" />
     <Content Include="Views\Procurement\PendingMeters.cshtml" />
