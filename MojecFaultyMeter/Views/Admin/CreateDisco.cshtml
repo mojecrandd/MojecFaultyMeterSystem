@@ -21,40 +21,31 @@
         </div>
     </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-title">
-                        <br />
-                        <h4> Horizontal Form</h4>
-
-                    </div>
+                   
                     <div class="card-body">
                         <div class="horizontal-form">
-                            <form class="form-horizontal">
+                            <div class="card-title">
+                                <h4>Create Disco</h4>
+
+                            </div>
+                            <form class="form-horizontal" action="CreateDisco" method="post"> 
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Email</label>
+                                    <label class="col-sm-2 control-label">Disco</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="text" class="form-control" placeholder="Disco" name="DiscoName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Password</label>
+                                    <label class="col-sm-2 control-label">Disco AB</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" placeholder="Password">
+                                        <input type="text" class="form-control" placeholder="Disco AB" name="DiscoAB">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> Remember me
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-success">Sign in</button>
+                                        <button type="submit" class="btn btn-success">Save</button>
                                     </div>
                                 </div>
                             </form>
