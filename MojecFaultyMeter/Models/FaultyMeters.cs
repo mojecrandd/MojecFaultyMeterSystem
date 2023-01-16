@@ -56,6 +56,8 @@ namespace MojecFaultyMeter.Models
         public string UserID { get; set; }
         [Display(Name = "Rejection Comment")]
         public string Rejectcomment { get; set; }
+
+       
         Random random = new Random();
 
         public FaultyMeters()

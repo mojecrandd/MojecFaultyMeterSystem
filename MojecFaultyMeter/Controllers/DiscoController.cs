@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Data.OleDb;
 using System.IO;
+using OfficeOpenXml;
 
 namespace MojecFaultyMeter.Controllers
 {
@@ -208,6 +209,76 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult Completedcases(string from , string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+
+            string DiscoID = (string)Session["DiscoID"];
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Recieved' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.MeterType = rdr["WorkOrderID"].ToString();
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
+        public FileContentResult DownlaodCompletecasesdata(string from, string to)
+        {
+            string discoId = (string)Session["DiscoID"];
+            using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where f.Status = 'Recieved' and f.Daterecieved  between {from}   and {to}  and f.DiscoID = {discoId}", connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (ExcelPackage package = new ExcelPackage())
+                        {
+                            //Create the Excel Worksheet
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                            //Populate the Excel Worksheet with the data from the SQL query
+                            worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                            //Set the content disposition as attachment and the file name as the desired name of the excel file
+                            var content = package.GetAsByteArray();
+                            var fileName = "FMMSData.xlsx";
+                            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                        }
+                    }
+                }
+            }
+
+        }
+
         public ActionResult Solvedcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -244,6 +315,44 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult Solvedcases(string from , string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Solved' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
         public ActionResult Pendingcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -280,6 +389,44 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult Pendingcases(string from , string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Pending' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
         public ActionResult Replacescases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -294,6 +441,43 @@ namespace MojecFaultyMeter.Controllers
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiscoID", DiscoID);
 
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.MeterReplacementNo = rdr["MeterReplacementNo"].ToString();
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
+        [HttpPost]
+        public ActionResult Replacescases(string from, string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Replacementstat = 'Yes' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -354,6 +538,44 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult Reparingcases(string from, string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Repairing' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
         public ActionResult Acceptedcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -390,6 +612,44 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult Acceptedcases(string from, string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Accepted' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
         public ActionResult Rejectedcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -403,6 +663,43 @@ namespace MojecFaultyMeter.Controllers
                 SqlCommand cmd = new SqlCommand("GetRejectedMeterperDisco", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiscoID", DiscoID);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.Rejectcomment = rdr["RejectionComment"].ToString();
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
+        [HttpPost]
+        public ActionResult Rejectedcases(string from, string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Rejected' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -462,6 +759,7 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
         public async Task<ActionResult> ConfirmWorkOrder()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -548,6 +846,7 @@ namespace MojecFaultyMeter.Controllers
             TempData["save"] = "Workorder has been created successfully";
             return RedirectToAction("AddFaultyMeters");
         }
+
         public ActionResult AwaitingDispatch()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -583,6 +882,43 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult AwaitingDispatch(string from, string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Awaiting Dispatch' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
         public ActionResult AwaitingReplacement()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
@@ -618,6 +954,43 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        [HttpPost]
+        public ActionResult AwaitingReplacement(string from , string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["DiscoID"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            _faulty = new List<FaultyMeters>();
+            string DiscoID = (string)Session["DiscoID"];
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Awaiting Replacement' and f.ReplacementApproval = 'Yes' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {DiscoID}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
         public ActionResult Dispatchedcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -651,6 +1024,47 @@ namespace MojecFaultyMeter.Controllers
                     fault.MeterType = rdr["MeterType"].ToString();
                     fault.WorkOrderID = rdr["WorkOrderID"].ToString();
                     
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+        }
+
+        [HttpPost]
+        public ActionResult Dispatchedcases(string from , string to)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+
+
+            string DiscoID = (string)Session["DiscoID"];
+            _faulty = new List<FaultyMeters>();
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetDispatchedMeterperDiscoAdmin", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DiscoID", DiscoID);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+
                     _faulty.Add(fault);
                 }
                 rdr.Close();

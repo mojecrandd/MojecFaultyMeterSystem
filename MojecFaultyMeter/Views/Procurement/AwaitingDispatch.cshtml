@@ -30,18 +30,35 @@
                     <h4 class="card-title">Awaiting Dispatch Cases</h4>
                 </div>
                 <div class="card-body">
-                    @*<div class="row">
-                            <div class="col-md-12 pl-6">
-                                <div class="form-group">
-                                    <a href="@Url.Action("CreateDisco", "Admin")" class="btn btn-outline-primary">
-                                        <i class="fas fa-plus-square"></i>
-                                        <span>
-                                            <strong>Add Disco</strong>
-                                        </span>
-                                    </a>
+                    @using (Html.BeginForm("AwaitingDispatch", "Procurement", FormMethod.Post))
+                    {
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="form-row col-lg-12">
+                                    <div class="col-lg-3">
+                                        <label class="control-label">From</label>
+                                        <input type="date" class="form-control" name="from" reqired>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="control-label">To</label>
+                                        <input type="date" class="form-control" name="to" required>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label class="control-label">Disco</label>
+                                        @Html.DropDownList("discoId", new SelectList(ViewBag.Disco, "DiscoID", "DiscoAB"), "--Select Disco--", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <br />
+                                        <label class="control-label"></label>
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                        @*<button type="submit" class="btn btn-primary">Download</button>*@
+                                    </div>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
+                    }
+
+                    <br />
                     <div class="table-responsive">
                         <table id="example" class="display" style="min-width: 845px">
                             <thead>
