@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<MojecFaultyMeter.Models.FaultyMeters>
 @{
-    ViewBag.Title = "Completedcases";
-    Layout = "~/Views/Shared/_LayoutDisco.cshtml";
+    ViewBag.Title = "AwaitingConfirmination";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
 
 <div class="container-fluid">
     <div class="row page-titles mx-0">
@@ -30,7 +29,7 @@
                     <h4 class="card-title">Completed Cases</h4>
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("Completedcases", "Disco", FormMethod.Post))
+                    @using (Html.BeginForm("AwaitingConfirmination", "Disco", FormMethod.Post))
                     {
                         <div class="form-horizontal">
                             <div class="row">
@@ -141,3 +140,4 @@
         </div>
     </div>
 </div>
+

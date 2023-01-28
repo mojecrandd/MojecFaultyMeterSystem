@@ -4398,6 +4398,8 @@
     <Content Include="Views\Shared\_LayoutDisco.cshtml" />
     <Content Include="Views\Shared\_LayoutFactory.cshtml" />
     <Content Include="Views\Shared\_LayoutFactoryManager.cshtml" />
+    <Content Include="Views\Admin\Report.cshtml" />
+    <Content Include="Views\Admin\AwaitingConfirmination.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

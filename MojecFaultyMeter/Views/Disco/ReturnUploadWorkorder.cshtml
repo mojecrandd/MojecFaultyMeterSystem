@@ -30,7 +30,6 @@
                         </div>
                         <form class="form-horizontal" action="ReturnUploadWorkorder" method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Model</label>
                                 <div class="col-sm-10">
                                     <input type="file" class="form-control" name="file">
                                 </div>
@@ -41,6 +40,9 @@
                                     <a class="btn btn-outline-primary" href="@Url.Action("DownloadFile", "Disco")">Download Template</a>
                                 </div>
                             </div>
+
+                            <h4>@ViewBag.Success</h4>
+
                         </form>
                     </div>
                 </div>

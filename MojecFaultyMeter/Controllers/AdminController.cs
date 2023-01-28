@@ -555,7 +555,7 @@ namespace MojecFaultyMeter.Controllers
             using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where f.Status = 'Recieved' and f.Daterecieved  between {from}   and {to}  and f.DiscoID = {discoId}", connection))
+                using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Status = 'Recieved' and Daterecieved  between {from}   and {to}  and DiscoID = {discoId}", connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -880,6 +880,91 @@ namespace MojecFaultyMeter.Controllers
             }
             return View(_faulty);
         }
+
+        public ActionResult AwaitingConfirmination()
+        {
+
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
+            _faulty = new List<FaultyMeters>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand("GetawaitingConfirmation", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+
+        }
+
+        [HttpPost]
+        public ActionResult AwaitingConfirmination(string from, string to, string discoId)
+        {
+
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+            ViewBag.Disco = PopulateDisco();
+            _faulty = new List<FaultyMeters>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+                SqlCommand cmd = new SqlCommand($"Select * from FaultyMeters f full join Disco d on f.DiscoID = d.DiscoID full join DiscoUsers du on f.DiscoUserID= du.DiscoUserID full join MojecStoreUser mu on f.AcceptedBy = mu.MojecStoreUserID full join FactoryUser fu on f.TreatedBy = fu.FactoryUserID where f.Status = 'Awaiting Confirmation' and f.Daterecieved between '{from}' and '{to}' and d.DiscoID = {discoId}", con);
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    FaultyMeters fault = new FaultyMeters();
+                    fault.MeterID = Convert.ToInt32(rdr["MeterID"].ToString());
+                    fault.CustomerName = rdr["CustomerName"].ToString();
+                    fault.MeterNo = rdr["MeterNo"].ToString();
+                    fault.Replacementstat = rdr["Replacementstat"].ToString();
+                    fault.Status = rdr["Status"].ToString();
+                    fault.ReturnDate = rdr["ReturnDate"].ToString();
+                    fault.AcceptedBy = rdr["M_Fullname"].ToString();
+                    fault.TreatedBy = rdr["F_Fullname"].ToString();
+                    fault.DiscoUser = rdr["D_Fullname"].ToString();
+                    fault.AccountNo = rdr["AccountNo"].ToString();
+                    fault.MeterType = rdr["MeterType"].ToString();
+                    fault.WorkOrderID = rdr["WorkOrderID"].ToString();
+
+                    _faulty.Add(fault);
+                }
+                rdr.Close();
+            }
+            return View(_faulty);
+
+        }
+
+
         public ActionResult Reparingcases()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
@@ -1889,6 +1974,264 @@ namespace MojecFaultyMeter.Controllers
             return RedirectToAction("Template");
             
         }
+
+        private static List<Fault> PopulateFault()
+        {
+            List<Fault> fault = new List<Fault>();
+
+            using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("select * from  Fault_Tbl", con))
+                {
+                    cmd.Connection = con;
+
+                    con.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            fault.Add(
+                                new Fault
+                                {
+                                    FaultID = Convert.ToInt32(sdr["FaultID"]),
+                                    Faultname = sdr["Fault"].ToString()
+                                }
+
+                                );
+                        }
+                        con.Close();
+                    }
+
+
+                }
+
+                return fault;
+
+            }
+        }
+
+        public ActionResult Report()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["Username"])))
+            {
+                return RedirectToAction("UsersLogin", "Authentication");
+            }
+
+            ViewBag.Disco = PopulateDisco();
+            ViewBag.Fault = PopulateFault();
+            return View();
+        }
+
+        
+        public ActionResult DiscoReport(string from, string to , string discoId, string status)
+        {
+                 
+            if (string.IsNullOrEmpty(discoId) && status == "All")
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where  Daterecieved  between {from}   and {to} ", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(discoId != null && status == "All")
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Daterecieved  between {from}   and {to}  and DiscoID = {discoId}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(discoId == "" && status != "All")
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Status = '{status}' and Daterecieved  between {from}   and {to}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+               
+            else
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Status = '{status}' and Daterecieved  between {from}   and {to}  and DiscoID = {discoId}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+           
+            
+        }
+
+        public ActionResult FaultReport(string from, string to, string discoId, string fault)
+        {
+           
+         
+           if(discoId == "")
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Fault = '{fault}' and Daterecieved  between {from}   and {to}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+           else if(fault == "" && discoId == "")
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where  Daterecieved  between {from}   and {to}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+           else 
+            {
+                using (SqlConnection connection = new SqlConnection(StoreConnection.GetConnection()))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand($"Select * from FaultyMeters where Fault = '{fault}' and Daterecieved  between {from}   and {to} and DiscoID = {discoId}", connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (ExcelPackage package = new ExcelPackage())
+                            {
+                                //Create the Excel Worksheet
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("FMMSData");
+
+                                //Populate the Excel Worksheet with the data from the SQL query
+                                worksheet.Cells["A1"].LoadFromDataReader(reader, true);
+
+                                //Set the content disposition as attachment and the file name as the desired name of the excel file
+                                var content = package.GetAsByteArray();
+                                var fileName = "FMMSData.xlsx";
+                                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+        }
+
+
+
 
 
 

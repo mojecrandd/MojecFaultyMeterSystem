@@ -54,32 +54,7 @@
                             </div>
                         </div>
                     }
-                    @using (Html.BeginForm("DownlaodCompletecasesdata", "Admin", FormMethod.Post))
-                    {
-                        <div class="form-horizontal">
-                            <div class="row">
-                                <div class="form-row col-lg-12">
-                                    <div class="col-lg-3">
-                                        <label class="control-label">From</label>
-                                        <input type="date" class="form-control" name="from" reqired>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="control-label">To</label>
-                                        <input type="date" class="form-control" name="to" required>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <label class="control-label">Disco</label>
-                                        @Html.DropDownList("discoId", new SelectList(ViewBag.Disco, "DiscoID", "DiscoAB"), "--Select Disco--", new { @class = "form-control" })
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <br />
-                                        <button type="submit" class="btn btn-primary">Download</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
+               
 
                     <br />
                     <div class="table-responsive">

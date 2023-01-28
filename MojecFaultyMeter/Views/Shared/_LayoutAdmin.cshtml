@@ -107,7 +107,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Menu</li>
                     <!-- <li><a href="index.html"><i class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a>
-                    </li> -->
+    </li> -->
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon icon-app-store"></i><span class="nav-text">Dashboard</span>
@@ -141,6 +141,7 @@
                             <li><a href='@Url.Action("Rejectcases", "Admin")'>Rejected</a></li>
                             <li><a href='@Url.Action("AwaitingDispatch", "Admin")'>Awaiting Dispatch</a></li>
                             <li><a href='@Url.Action("AwaitingReplacement", "Admin")'>Awaiting Replacement</a></li>
+                            <li><a href='@Url.Action("AwaitingConfirmination", "Admin")'>Awaiting Confirmation</a></li>
                             <li><a href='@Url.Action("Dispatchedcases", "Admin")'>Dispatched</a></li>
                         </ul>
                     </li>
@@ -171,6 +172,14 @@
                             <li><a href='@Url.Action("MeterType", "Admin")'>Meter Type</a></li>
                             <li><a href='@Url.Action("Model", "Admin")'>Meter Model</a></li>
                             <li><a href='@Url.Action("Template", "Admin")'>Templates</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon icon-chart-bar-33"></i><span class="nav-text">Report</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href='@Url.Action("Report", "Admin")'>Report</a></li>
                         </ul>
                     </li>
                 </ul>

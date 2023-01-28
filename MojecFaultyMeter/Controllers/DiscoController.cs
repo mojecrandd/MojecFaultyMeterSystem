@@ -15,6 +15,9 @@ using System.Configuration;
 using System.Data.OleDb;
 using System.IO;
 using OfficeOpenXml;
+using System.Net;
+using System.Web.Helpers;
+using Microsoft.Ajax.Utilities;
 
 namespace MojecFaultyMeter.Controllers
 {
@@ -1207,43 +1210,119 @@ namespace MojecFaultyMeter.Controllers
         [HttpPost]
         public ActionResult ReturnUploadWorkorder(HttpPostedFileBase file)
         {
-            
-            string DiscoID = (string)Session["DiscoID"];
-            string DiscoUserID = (string)Session["DiscoUserID"];
-            string filename = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            string filepath = "/excelfolder/" + filename;
-            file.SaveAs(Path.Combine(Server.MapPath("/excelfolder/"), filename));
-            string fullpath = Server.MapPath("/excelfolder/") + filename;
-            ExcelConn(fullpath);
-            string Query = string.Format("Select * from [{0}]", "Sheet1$");
-            OleDbCommand Ecom = new OleDbCommand(Query, Econ);
-            Econ.Open();
-            OleDbDataReader dr = Ecom.ExecuteReader();
-            DataSet ds = new DataSet();
-            OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
-            Econ.Close();
-            oda.Fill(ds);
-            DataTable dt = ds.Tables[0];
-            SqlBulkCopy objbulk = new SqlBulkCopy(con);
-            objbulk.DestinationTableName = "FaultyMeters";
-            objbulk.ColumnMappings.Add("MeterNo", "MeterNo");
-            objbulk.ColumnMappings.Add("Customer", "CustomerName");
-            objbulk.ColumnMappings.Add("AccountNo", "AccountNo");
-            objbulk.ColumnMappings.Add("Tariff", "Tariff");
-            objbulk.ColumnMappings.Add("MeterType ", "MeterType");
-            objbulk.ColumnMappings.Add("Model", "Model");
-            objbulk.ColumnMappings.Add("Fault", "Fault");
-            objbulk.ColumnMappings.Add("FaultyComment", "FaultyComment");
-            objbulk.ColumnMappings.Add("BU", "BU");
-            objbulk.ColumnMappings.Add("DateReceived", "Daterecieved");
-            objbulk.ColumnMappings.Add("DiscoID", "DiscoID");
-            objbulk.ColumnMappings.Add("DiscoUserID", "DiscoUserID");
-            objbulk.ColumnMappings.Add("WorkOrderType", "WorkOrderType");
-            con.Open();
-            objbulk.WriteToServer(dt);
-            con.Close();
-            TempData["save"] = "Upload successful";
+            try
+            {
+                string DiscoID = (string)Session["DiscoID"];
+                string DiscoUserID = (string)Session["DiscoUserID"];
+                string filename = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                string filepath = "/excelfolder/" + filename;
+                file.SaveAs(Path.Combine(Server.MapPath("/excelfolder/"), filename));
+                string fullpath = Server.MapPath("/excelfolder/") + filename;
+                ExcelConn(fullpath);
+                string Query = string.Format("Select * from [{0}]", "Sheet1$");
+                OleDbCommand Ecom = new OleDbCommand(Query, Econ);
+                Econ.Open();
+                OleDbDataReader dr = Ecom.ExecuteReader();
+
+                string TemplateDiscoID = "";
+                string TemplateDiscoUserID = "";
+
+
+                string customername = "";
+                string meterno = "";
+                string faultType = "";
+                string accountNo = "";
+
+                while (dr.Read())
+                {
+                    TemplateDiscoID= dr[10].ToString();
+                    TemplateDiscoUserID = dr[11].ToString();
+                    customername = dr[1].ToString();
+                    meterno = dr[0].ToString();
+                    faultType = dr[6].ToString();
+                    accountNo = dr[2].ToString();
+
+
+                    if(TemplateDiscoUserID != DiscoUserID || TemplateDiscoID != DiscoID)
+                    {
+                        ViewBag.Success = "Upload Failed: Please input valid disco ID and Disco UserID";
+                        return View();
+                    }
+
+
+                    if(customername == "" || meterno == "" || faultType == "" || TemplateDiscoUserID == "" || TemplateDiscoID == "" || accountNo == "")
+                    {
+
+                        ViewBag.Success = "Upload Failed: Required values can't be empty";
+                        return View();
+                    }
+
+                   
+
+                    List<Fault> fault = PopulateFault();
+
+                    
+
+                    //bool faultcheck = fault.Where(x => x.Faultname.Contains(faultType)).Any();
+                    
+                    //if(faultcheck == false)
+                    //{
+                    //    ViewBag.Success = "Upload Failed: Input Valid Fault";
+                    //    return View();
+                    //}
+
+                    
+                }
+
+                DataSet ds = new DataSet();
+                OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
+                Econ.Close();
+                oda.Fill(ds);
+                DataTable dt = ds.Tables[0];
+                SqlBulkCopy objbulk = new SqlBulkCopy(con);
+
+                
+
+
+                objbulk.DestinationTableName = "FaultyMeters";
+                objbulk.ColumnMappings.Add("MeterNo", "MeterNo");
+                objbulk.ColumnMappings.Add("Customer", "CustomerName");
+                objbulk.ColumnMappings.Add("AccountNo", "AccountNo");
+                objbulk.ColumnMappings.Add("Tariff", "Tariff");
+                objbulk.ColumnMappings.Add("MeterType ", "MeterType");
+                objbulk.ColumnMappings.Add("Model", "Model");
+                objbulk.ColumnMappings.Add("Fault", "Fault");
+                objbulk.ColumnMappings.Add("FaultyComment", "FaultyComment");
+                objbulk.ColumnMappings.Add("BU", "BU");
+                objbulk.ColumnMappings.Add("DateReceived", "Daterecieved");
+                objbulk.ColumnMappings.Add("DiscoID", "DiscoID");
+                objbulk.ColumnMappings.Add("DiscoUserID", "DiscoUserID");
+                objbulk.ColumnMappings.Add("WorkOrderType", "WorkOrderType");
+                con.Open();
+                objbulk.WriteToServer(dt);
+                con.Close();
+                TempData["save"] = "Upload successful";
+
+
+                
+
+
+
+                con.Open();
+                SqlCommand cmd = new SqlCommand("delete from FaultyMeters where MeterNo Is Null", con);
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+
+                ViewBag.Success = "Upload Successful";
+                return RedirectToAction("ConfirmList");
+            }
+            catch
+            {
+                ViewBag.Success = "Upload Failed";
+            }
+
             return View();
+           
         }
 
         private static List<Fault> PopulateFault()
@@ -1348,12 +1427,8 @@ namespace MojecFaultyMeter.Controllers
                         }
                         con.Close();
                     }
-
-
                 }
-
                 return meter;
-
             }
         }
         public ActionResult DownloadCompletedcases(string date1, string date2)
@@ -1409,7 +1484,6 @@ namespace MojecFaultyMeter.Controllers
                     con.Close();
                 }
             }
-
             return files;
         }
 
