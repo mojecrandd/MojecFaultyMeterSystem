@@ -755,7 +755,6 @@ namespace MojecFaultyMeter.Controllers
                     fault.DiscoUser = rdr["D_Fullname"].ToString();
                     fault.AccountNo = rdr["AccountNo"].ToString();
                     fault.MeterType = rdr["MeterType"].ToString();
-
                     _faulty.Add(fault);
                 }
                 rdr.Close();
