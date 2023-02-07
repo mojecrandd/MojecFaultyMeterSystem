@@ -18,6 +18,7 @@ using OfficeOpenXml;
 using System.Net;
 using System.Web.Helpers;
 using Microsoft.Ajax.Utilities;
+using System.Runtime.Remoting.Messaging;
 
 namespace MojecFaultyMeter.Controllers
 {
@@ -1249,6 +1250,7 @@ namespace MojecFaultyMeter.Controllers
                     }
 
 
+
                     if(customername == "" || meterno == "" || faultType == "" || TemplateDiscoUserID == "" || TemplateDiscoID == "" || accountNo == "")
                     {
 
@@ -1256,21 +1258,33 @@ namespace MojecFaultyMeter.Controllers
                         return View();
                     }
 
-                   
 
-                    List<Fault> fault = PopulateFault();
+                    string checker = "";
+                    con.Open();
+                    SqlCommand faultcheck = new SqlCommand($"select Fault from Fault_Tbl where Fault = {faultType}", con);
+                    SqlDataReader reader = faultcheck.ExecuteReader();
+                    if (reader.Read())
+                       checker = reader["Fault"].ToString();
 
-                    
+
+                    if(checker == "")
+                    {
+                        ViewBag.Success = "Upload Failed: Enter Valid Fault";
+                        return View();
+                    }
+
+
+
 
                     //bool faultcheck = fault.Where(x => x.Faultname.Contains(faultType)).Any();
-                    
+
                     //if(faultcheck == false)
                     //{
                     //    ViewBag.Success = "Upload Failed: Input Valid Fault";
                     //    return View();
                     //}
 
-                    
+
                 }
 
                 DataSet ds = new DataSet();
@@ -1311,6 +1325,7 @@ namespace MojecFaultyMeter.Controllers
                 SqlCommand cmd = new SqlCommand("delete from FaultyMeters where MeterNo Is Null", con);
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
+                con.Close();
 
                 ViewBag.Success = "Upload Successful";
                 return RedirectToAction("ConfirmList");
@@ -1367,7 +1382,6 @@ namespace MojecFaultyMeter.Controllers
 
             using (SqlConnection con = new SqlConnection(StoreConnection.GetConnection()))
             {
-
                 using (SqlCommand cmd = new SqlCommand("select * from  MeterModel", con))
                 {
                     cmd.Connection = con;
