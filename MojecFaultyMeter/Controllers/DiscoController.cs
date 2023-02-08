@@ -1242,36 +1242,18 @@ namespace MojecFaultyMeter.Controllers
                     faultType = dr[6].ToString();
                     accountNo = dr[2].ToString();
 
-
-                    if(TemplateDiscoUserID != DiscoUserID || TemplateDiscoID != DiscoID)
+                    if(TemplateDiscoID != "" && TemplateDiscoUserID != "" )
                     {
-                        ViewBag.Success = "Upload Failed: Please input valid disco ID and Disco UserID";
-                        return View();
+                        if (TemplateDiscoUserID != DiscoUserID || TemplateDiscoID != DiscoID)
+                        {
+                            ViewBag.Success = "Upload Failed: Please input valid disco ID and Disco UserID";
+                            return View();
+                        }
+
+
                     }
 
 
-
-                    if(customername == "" || meterno == "" || faultType == "" || TemplateDiscoUserID == "" || TemplateDiscoID == "" || accountNo == "")
-                    {
-
-                        ViewBag.Success = "Upload Failed: Required values can't be empty";
-                        return View();
-                    }
-
-
-                    string checker = "";
-                    con.Open();
-                    SqlCommand faultcheck = new SqlCommand($"select Fault from Fault_Tbl where Fault = {faultType}", con);
-                    SqlDataReader reader = faultcheck.ExecuteReader();
-                    if (reader.Read())
-                       checker = reader["Fault"].ToString();
-
-
-                    if(checker == "")
-                    {
-                        ViewBag.Success = "Upload Failed: Enter Valid Fault";
-                        return View();
-                    }
 
 
 
