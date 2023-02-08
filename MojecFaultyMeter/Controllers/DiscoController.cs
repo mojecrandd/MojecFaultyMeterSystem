@@ -1244,7 +1244,7 @@ namespace MojecFaultyMeter.Controllers
 
                     if(TemplateDiscoUserID != DiscoUserID || TemplateDiscoID != DiscoID)
                     {
-                        ViewBag.Success = "Upload Failed: Please input valid disco ID and Disco UserID";
+                        ViewBag.Success = "Upload Failed Please input valid disco ID and Disco UserID";
                         return View();
                     }
 
@@ -1252,7 +1252,7 @@ namespace MojecFaultyMeter.Controllers
                     if(customername == "" || meterno == "" || faultType == "" || TemplateDiscoUserID == "" || TemplateDiscoID == "" || accountNo == "")
                     {
 
-                        ViewBag.Success = "Upload Failed: Required values can't be empty";
+                        ViewBag.Success = "Upload Failed Required values can't be empty";
                         return View();
                     }
 
